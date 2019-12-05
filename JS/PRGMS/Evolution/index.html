@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Evolution</title>
+
+    <style>
+
+    </style>
+
+   <meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+    <script src="simple.js">
+        // totalWidth = 500;
+        // totalHeight = 400;
+        updatesPerSecond = 300;
+        let curGen = 0;
+        let time =0;
+        let bodies = [];
+        let foodies = [];
+        let hiddenFoodies = [];
+        let bestStrength = [[2,2,2],[2,2,2],[2,2,2]];
+        let bestSpeed = [[2.5,2.5,2.5],[2.5,2.5,2.5],[2.5,2.5,2.5]];
+        let bestVision = [350,350,350];
+        let survivors = [0,0,0];
+        let munchers = [0,0,0];
+        let devourers = [0,0,0];
+
+
+        var Food = function(x,y){
+          this.x = x;
+          this.y = y;
+        };
+
+        Food.prototype.draw = function(){
+          circle(this.x,this.y,3,"green");
+
+        };
+
+        var hiddenFood = function(x,y) {
+          this.x = x;
+          this.y = y;
+        };
+
+
+
+        var Body = function(x,y,strength,speed,vision,energy,score,index,order) {
+          this.x = x;
+          this.y = y;
+          this.strength = strength;
+          this.speed = speed;
+          this.vision = vision;
+          this.energy = energy;
+          this.score = score;
+          this.index = index;
+          this.order = order;
+        };
+
+
+        Body.prototype.draw = function() {
+
+                //check if body is at body
+                for (let i = 0; i < bodies.length; i++) {
+                  if(abs(this.x-bodies[i].x)< 8&&abs(this.y-bodies[i].y)< 8&&this.index!=i&&this.strength>bodies[i].strength&&this.order!=bodies[i].order){
+                    this.score += 1;
+                    bodies.splice(i,1);
+                    devourers[this.order] += 1;
+                  }
+                }
+
+
+                //check if body is at food
+                for (let i = 0; i < foodies.length; i++) {
+                  if(abs(this.x-foodies[i].x)< 5&&abs(this.y-foodies[i].y)< 5){
+                    this.score += 1;
+                    foodies.splice(i,1);
+                    munchers[this.order] += 1;
+                    if(foodies[0] == undefined){
+                      newGeneration();
+                    }
+                  }
+                }
+
+                //check if at hidden food
+                for (let i = 0; i < hiddenFoodies.length; i++) {
+                  if(abs(this.x-hiddenFoodies[i].x)< 5&&abs(this.y-hiddenFoodies[i].y)< 5){
+                    hiddenFoodies.splice(i,1);
+                    if(hiddenFoodies[0]==undefined){
+                      for (let j = 0; j < 50; j++) {
+                        hiddenFoodies[j] = new hiddenFood(random(totalWidth),random(totalHeight));
+                      }
+                    }
+                  }
+                }
+
+                //define what is closest
+                let distance = 100000000;
+
+
+                let primeIndex = undefined;
+                for (var i = 0; i < bodies.length; i++) {
+                  if(pow(bodies[i].x-this.x,2)+pow(bodies[i].y-this.y,2)<distance*distance&&pow(bodies[i].x-this.x,2)+pow(bodies[i].y-this.y,2)<this.vision*this.vision&&this.index!=i&&this.strength<bodies[i].strength&&this.order != bodies[i].order){
+                    distance = sqrt(pow(bodies[i].x-this.x,2)+pow(bodies[i].y-this.y,2));
+                    primeIndex = i;
+
+                  }
+                }
+
+                if(primeIndex==undefined){
+
+                    let firstIndex = undefined;
+                    for (let i = 0; i < bodies.length; i++) {
+                      if(pow(bodies[i].x-this.x,2)+pow(bodies[i].y-this.y,2)<distance*distance&&pow(bodies[i].x-this.x,2)+pow(bodies[i].y-this.y,2)<0.25*this.vision*this.vision&&this.index!=i&&this.strength>bodies[i].strength && this.order != bodies[i].order){
+                        distance = sqrt(pow(bodies[i].x-this.x,2)+pow(bodies[i].y-this.y,2));
+                        firstIndex = i;
+                      }
+                    }
+
+                    if (firstIndex==undefined){
+
+                          let curIndex = undefined;
+                          for (let i = 0; i < foodies.length; i++) {
+                            if(pow(foodies[i].x-this.x,2)+pow(foodies[i].y-this.y,2)<distance*distance&&pow(foodies[i].x-this.x,2)+pow(foodies[i].y-this.y,2)<this.vision*this.vision){
+                              distance = sqrt(pow(foodies[i].x-this.x,2)+pow(foodies[i].y-this.y,2));
+                              curIndex = i;
+                            }
+                          }
+
+                          //if body can't see, go to hidden food
+                          if (curIndex == undefined) {
+
+                              let notherIndex = undefined;
+                              for (let i = 0; i < hiddenFoodies.length; i++) {
+                                if(pow(hiddenFoodies[i].x-this.x,2)+pow(hiddenFoodies[i].y-this.y,2)<distance*distance){
+                                  distance = sqrt(pow(hiddenFoodies[i].x-this.x,2)+pow(hiddenFoodies[i].y-this.y,2));
+                                  notherIndex = i;
+                                }
+                              }
+
+                              if((hiddenFoodies[notherIndex].x-this.x>0)){var n = 0;}else{var n = 1;}
+                              let degree = Math.atan((hiddenFoodies[notherIndex].y-this.y)/(hiddenFoodies[notherIndex].x-this.x)) + pi * n;
+                              if(this.y<0||this.x>totalWidth||this.y>=totalHeight||this.x<=0){degree+=pi+pi*(Math.random()*0.4-0.2);}
+                              if(this.y<0){this.y=0;}else if(this.y>totalHeight){this.y=totalHeight;}else if(this.x<0){this.x=0;} else if(this.x>totalWidth){this.x=totalWidth;}
+                              this.x += this.speed*Math.cos(degree);
+                              this.y += this.speed*Math.sin(degree);
+
+                              save();
+                              translate(this.x,this.y);
+                              rotateRadians(degree+pi/2);
+                              if(this.order==0){triangle(0,-10,5,8,-5,8,"red");}else if(this.order==1){triangle(0,-10,5,8,-5,8,"blue");}else{triangle(0,-10,5,8,-5,8,"green");}
+                              createBody();
+
+                          } else {        //change direction and move to closest food
+
+                              if((foodies[curIndex].x-this.x>0)){var n = 0;}else{var n = 1;}
+                              let degree = Math.atan((foodies[curIndex].y-this.y)/(foodies[curIndex].x-this.x)) + pi * n;
+                              if(this.y<0||this.x>totalWidth||this.y>=totalHeight||this.x<=0){degree+=pi+pi*(Math.random()*0.4-0.2);}
+                              if(this.y<0){this.y=0;}else if(this.y>totalHeight){this.y=totalHeight;}else if(this.x<0){this.x=0;} else if(this.x>totalWidth){this.x=totalWidth;}
+                              this.x += this.speed*Math.cos(degree);
+                              this.y += this.speed*Math.sin(degree);
+
+                              save();
+                              translate(this.x,this.y);
+                              rotateRadians(degree+pi/2);
+                              if(this.order==0){triangle(0,-10,5,8,-5,8,"red");}else if(this.order==1){triangle(0,-10,5,8,-5,8,"blue");}else{triangle(0,-10,5,8,-5,8,"green");}
+                              createBody();
+
+                          }
+                  } else {
+                    if((bodies[firstIndex].x-this.x>0)){var n = 0;}else{var n = 1;}
+                    let degree = Math.atan((bodies[firstIndex].y-this.y)/(bodies[firstIndex].x-this.x)) + pi * n;
+                    if(this.y<0||this.x>totalWidth||this.y>=totalHeight||this.x<=0){degree+=pi+pi*(Math.random()*0.4-0.2);}
+                    if(this.y<0){this.y=0;}else if(this.y>totalHeight){this.y=totalHeight;}else if(this.x<0){this.x=0;} else if(this.x>totalWidth){this.x=totalWidth;}
+                    this.x += this.speed*Math.cos(degree);
+                    this.y += this.speed*Math.sin(degree);
+
+                    save();
+                    translate(this.x,this.y);
+                    rotateRadians(degree+pi/2);
+                    if(this.order==0){triangle(0,-10,5,8,-5,8,"red");}else if(this.order==1){triangle(0,-10,5,8,-5,8,"blue");}else{triangle(0,-10,5,8,-5,8,"green");}
+                    createBody();
+                  }
+              } else {
+                if((bodies[primeIndex].x-this.x>0)){var n = 0;}else{var n = 1;}
+                let degree = -1*Math.atan((bodies[primeIndex].y-this.y)/(bodies[primeIndex].x-this.x)) + pi * n;
+                if(this.y<0||this.x>totalWidth||this.y>=totalHeight||this.x<=0){degree-=pi/2;}
+                if(this.y<0){this.y=0;}else if(this.y>totalHeight){this.y=totalHeight;}else if(this.x<0){this.x=0;} else if(this.x>totalWidth){this.x=totalWidth;}
+                this.x += this.speed*Math.cos(degree);
+                this.y += this.speed*Math.sin(degree);
+
+                save();
+                translate(this.x,this.y);
+                rotateRadians(degree+pi/2);
+                if(this.order==0){triangle(0,-10,5,8,-5,8,"red");}else if(this.order==1){triangle(0,-10,5,8,-5,8,"blue");}else{triangle(0,-10,5,8,-5,8,"green");}
+                createBody();
+              }
+        };
+
+        function newGeneration(){
+          time = 0;
+          curGen += 1;
+          for (var i = 0; i < 50; i++) {
+            foodies[i] = new Food(random(totalWidth),random(totalHeight));
+          }
+          for (let i = 0; i < 50; i++) {
+            hiddenFoodies[i] = new hiddenFood(random(totalWidth),random(totalHeight));
+          }
+
+          if(curGen != 1){
+            for (var i = 0; i < bodies.length; i++) {
+              if(bodies[i].order==0){
+                survivors[0]+=1;
+              } else if(bodies[i].order == 1){
+                survivors[1]+=1;
+              } else {
+                survivors[2]+=1;
+              }
+            }
+            let bestScore = [[0,0,0],[0,0,0],[0,0,0]];
+            for (let i = 0; i < bodies.length; i++) {
+                  if (bodies[i].score > bestScore[0][2]&&bodies[i].order==0) {
+
+                    if(bodies[i].score>bestScore[0][0]){
+                      bestStrength[0][2] = bestStrength[0][1];
+                      bestStrength[0][1] = bestStrength[0][0];
+                      bestStrength[0][0] = bodies[i].strength;
+
+                      bestSpeed[0][2] = bestSpeed[0][1];
+                      bestSpeed[0][1] = bestSpeed[0][0];
+                      bestSpeed[0][0] = bodies[i].speed;
+
+                      bestVision[0] = bodies[i].vision;
+
+                      bestScore[0][2] = bestScore[0][1];
+                      bestScore[0][1] = bestScore[0][0];
+                      bestScore[0][0] = bodies[i].score;
+
+                    } else if(bodies[i].score>bestScore[0][1]) {
+                      bestStrength[0][2] = bestStrength[0][1];
+                      bestStrength[0][1] = bodies[i].strength;
+
+                      bestSpeed[0][2] = bestSpeed[0][1];
+                      bestSpeed[0][1] = bodies[i].speed;
+
+                      bestScore[0][2] = bestScore[0][1];
+                      bestScore[0][1] = bodies[i].score;
+                    } else {
+                      bestStrength[0][2] = bodies[i].strength;
+
+                      bestSpeed[0][2] = bodies[i].speed;
+
+                      bestScore[0][2] = bodies[i].score;
+                    }
+                  }
+
+                  if (bodies[i].score > bestScore[1][2]&&bodies[i].order==1) {
+
+                    if(bodies[i].score>bestScore[1][0]){
+                      bestStrength[1][2] = bestStrength[1][1];
+                      bestStrength[1][1] = bestStrength[1][0];
+                      bestStrength[1][0] = bodies[i].strength;
+
+                      bestSpeed[1][2] = bestSpeed[1][1];
+                      bestSpeed[1][1] = bestSpeed[1][0];
+                      bestSpeed[1][0] = bodies[i].speed;
+
+                      bestVision[1] = bodies[i].vision;
+
+                      bestScore[1][2] = bestScore[1][1];
+                      bestScore[1][1] = bestScore[1][0];
+                      bestScore[1][0] = bodies[i].score;
+                    } else if(bodies[i].score>bestScore[1][1]) {
+                      bestStrength[1][2] = bestStrength[1][1];
+                      bestStrength[1][1] = bodies[i].strength;
+
+                      bestSpeed[1][2] = bestSpeed[1][1];
+                      bestSpeed[1][1] = bodies[i].speed;
+
+                      bestScore[1][2] = bestScore[1][1];
+                      bestScore[1][1] = bodies[i].score;
+                    } else {
+                      bestStrength[1][2] = bodies[i].strength;
+
+                      bestSpeed[1][2] = bodies[i].speed;
+
+                      bestScore[1][2] = bodies[i].score;
+                    }
+                  }
+
+                  if (bodies[i].score > bestScore[2][2]&&bodies[i].order==2) {
+
+
+                    if(bodies[i].score>bestScore[2][0]){
+                      bestStrength[2][2] = bestStrength[2][1];
+                      bestStrength[2][1] = bestStrength[2][0];
+                      bestStrength[2][0] = bodies[i].strength;
+
+                      bestSpeed[2][2] = bestSpeed[2][1];
+                      bestSpeed[2][1] = bestSpeed[2][0];
+                      bestSpeed[2][0] = bodies[i].speed;
+
+                      bestVision[2] = bodies[i].vision;
+
+                      bestScore[2][2] = bestScore[2][1];
+                      bestScore[2][1] = bestScore[2][0];
+                      bestScore[2][0] = bodies[i].score;
+                    } else if(bodies[i].score>bestScore[0][1]) {
+                      bestStrength[2][2] = bestStrength[2][1];
+                      bestStrength[2][1] = bodies[i].strength;
+
+                      bestSpeed[2][2] = bestSpeed[2][1];
+                      bestSpeed[2][1] = bodies[i].speed;
+
+
+                      bestScore[2][2] = bestScore[2][1];
+                      bestScore[2][1] = bodies[i].score;
+                    } else {
+                      bestStrength[2][2] = bodies[i].strength;
+
+                      bestSpeed[2][2] = bodies[i].speed;
+
+                      bestScore[2][2] = bodies[i].score;
+                    }
+                  }
+            }
+          }
+
+
+          for (var i = 0; i < 3; i++) {
+
+            for (var j = 0; j < 10; j++) {
+                bodies[j] = new Body(random(totalWidth),random(totalHeight),(Math.random()-0.5)/2+(bestStrength[0][0]+bestStrength[0][1]+bestStrength[0][2])/3,(Math.random()-0.5)/4+(bestSpeed[0][0]+bestSpeed[0][1]+bestSpeed[0][2])/3,0,100,0,j,0);
+                bodies[j].energy -= bodies[j].strength*15;
+                bodies[j].energy -= bodies[j].speed*10;
+                bodies[j].vision = 750*(bodies[j].energy/100);
+                if(bodies[j].vision<10){j-=1;}
+            }
+
+            for (var j = 0; j < 10; j++) {
+                bodies[j+10] = new Body(random(totalWidth),random(totalHeight),(Math.random()-0.5)/2+(bestStrength[1][0]+bestStrength[1][1]+bestStrength[1][2])/3,(Math.random()-0.5)/4+(bestSpeed[1][0]+bestSpeed[1][1]+bestSpeed[1][2])/3,0,100,0,j+10,1);
+                bodies[j+10].energy -= bodies[j+10].strength*15;
+                bodies[j+10].energy -= bodies[j+10].speed*10;
+                bodies[j+10].vision = 750*(bodies[j+10].energy/100);
+                if(bodies[j+10].vision<10){j-=1;}
+            }
+
+            for (var j = 0; j < 10; j++) {
+                bodies[j+20] = new Body(random(totalWidth),random(totalHeight),(Math.random()-0.5)/2+(bestStrength[2][0]+bestStrength[2][1]+bestStrength[2][2])/3,(Math.random()-0.5)/4+(bestSpeed[2][0]+bestSpeed[2][1]+bestSpeed[2][2])/3,0,100,0,j+20,2);
+                bodies[j+20].energy -= bodies[j+20].strength*15;
+                bodies[j+20].energy -= bodies[j+20].speed*10;
+                bodies[j+20].vision = 750*(bodies[j+20].energy/100);
+                if(bodies[j+20].vision<10){j-=1;}
+            }
+
+          }
+
+       }
+
+       newGeneration();
+
+       function update() {
+         fill("#282828");
+         text(totalWidth-250,40,30,"Gen: "+ curGen,"white");
+
+         text(totalWidth-300,70,15,"Strength: "+ Math.round(bestStrength[0][0]*100)/100+ " S:"+survivors[0],"red");
+         text(totalWidth-300,100,15,"Speed: "+ Math.round(bestSpeed[0][0]*100)/100+ " M:"+munchers[0],"red");
+         text(totalWidth-300,130,15,"Vision: "+ Math.round(bestVision[0]*100)/100+" D:"+devourers[0],"red");
+
+         text(totalWidth-300,160,15,"Strength: "+ Math.round(bestStrength[1][0]*100)/100+ " S:"+survivors[1],"#33cccc");
+         text(totalWidth-300,190,15,"Speed: "+ Math.round(bestSpeed[1][0]*100)/100 + " M:"+munchers[1],"#33cccc");
+         text(totalWidth-300,220,15,"Vision: "+ Math.round(bestVision[1]*100)/100+" D:"+devourers[1],"#33cccc");
+
+         text(totalWidth-300,250,15,"Strength: "+ Math.round(bestStrength[2][0]*100)/100+ " S:"+survivors[2],"green");
+         text(totalWidth-300,280,15,"Speed: "+ Math.round(bestSpeed[2][0]*100)/100+" M:"+munchers[2],"green");
+         text(totalWidth-300,310,15,"Vision: "+ Math.round(bestVision[2]*100)/100+" D:"+devourers[2],"green");
+
+         for (var i = 0; i < bodies.length; i++) {
+           bodies[i].draw();
+         }
+         for (var i = 0; i < foodies.length; i++) {
+           foodies[i].draw();
+         }
+
+         if(time>50000){newGeneration();}
+
+       }
+
+
+       function createBody() {
+
+
+         circle(-3,-3,2,"white");
+         circle(3,-3,2,"white");
+         circle(-3,-3,1,"black");
+         circle(3,-3,1,"black");
+         rectangle(-10,0,8,1,"Chartreuse");
+         rectangle(2,0,8,1,"Chartreuse");
+         rectangle(-7,8,2,2,"Chartreuse");
+         rectangle(5,8,2,2,"Chartreuse");
+         line(0,8,-3,12,1,"aqua");
+         line(2,15,-3,12,1,"aqua");
+         line(2,15,0,18,1,"aqua");
+         restore();
+
+       }
+
+
+
+
+    </script>
+
+   <form>
+
+   </form>
+
+  </body>
+</html>

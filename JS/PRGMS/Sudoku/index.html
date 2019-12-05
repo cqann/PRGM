@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Sudoku</title>
+
+    <style>
+
+    </style>
+
+   <meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+    <script src="simple.js">/*
+    abs(X)
+    Returnerar absolutbeloppet av talet X.
+    arc(X, Y, RADIE, VINKEL, TJOCKLEK, FÄRG)
+    Ritar ett cirkelsegment på position (X, Y) med den givna radien, vinkeln, linjetjockleken och färgen.
+    ceil(X)
+    Returnerar talet X utan några decimaler, avrundat uppåt.
+    circle(X, Y, RADIE, FÄRG)
+    Ritar en fylld cirkel på position (X, Y) med den givna radien och färgen.
+    clearScreen()
+    Rensar ritytan.
+    distance(X1, Y1, X2, Y2)
+    Returnerar avståndet mellan punkterna (X1, Y1) och (X2, Y2). Kan också anropas med endast två argument om de är objekt som innehåller variablerna x och y.
+    distance3D(X1, Y1, Z1, X2, Y2, Z2)
+    Returnerar avståndet mellan punkterna (X1, Y1, Z1) och (X2, Y2, Z2). Kan också anropas med bara två argument om de är objekt som innehåller variablerna x, y och z.
+    fill(FÄRG)
+    Fyller ritytan med en färg.
+    floor(X)
+    Returnerar talet X utan några decimaler, avrundat neråt.
+    getPixel(X, Y)
+    Returnerar ett objekt som innehåller variablerna red, green och blue, som representerar färgen på den pixel som befinner sig på positionen (X, Y).
+    hideMouse()
+    Döljer muspekaren.
+    keyboard
+    Ett objekt som innehåller variabler för tangenterna på tangentbordet. Variablerna är antingen sanna eller falska beroende på om just den tangenten är nedtryckt för tillfället. De tangenter som du kan kontrollera med namn är: up, down, left, right, space, shift, alt, ctrl, enter, zero → nine, a → z. Bokstäverna stämmer bara på svenska och engelska tangentbord. Det går också att kontrollera keyboard[X], där X är koden för en viss tangent.
+    line(X1, Y1, X2, Y2, TJOCKLEK, FÄRG)
+    Ritar ett streck från koordinaten (X1, Y1) till (X2, Y2) med den givna tjockleken och färgen.
+    loopSound(LJUD, VOLYM)
+    Spela ett bakgrundsljud om och om igen i bakgrunden, exempelvis musik. Argumenten fungerar som i playSound som är beskrivet nedan.
+    math
+    Ett objekt som gör det lätt att experimentera med matematik.
+    mixColor(R, G, B)
+    Används för att blanda en egen färg. Det första argumentet anger hur mycket rött som ska blandas in, det andra anger mängden grönt och det tredje mängden blått. Varje argument ska vara mellan 0 och 255. Exempel: circle(100, 100, 50, mixColor(100, 0, 0));.
+    mouse
+    Ett objekt som innehåller musens nuvarande position och status. Variablerna x och y ger positionen och variablerna left, right och middle ger sant eller falskt beroende på om motsvarande musknapp är nedtryckt.
+    pi
+    En variabel som innehåller talet pi.
+    picture(X, Y, BILD)
+    Placerar en bild på ritytan, där bildens övre vänstra hörn hamnar på position (X, Y). Argumentet BILD kan vara en webbadress eller en sökväg till en bild på datorn.
+    playSound(LJUD, VOLYM)
+    Spela upp en ljudeffekt. Argumentet volym ska vara ett tal mellan 0 och 1; om du inte anger någon volym så blir den 1.
+    pow(BAS, EXPONENT)
+    Returnerar ett tal som är BAS upphöjt till EXPONENT. Om man anropar funktionen med basen 2 och exponenten 3 blir resultatet: 8.
+    preloadSound(LJUD)
+    Laddar in ett ljud i datorns minne.
+    random(X)
+    Returnerar ett slumptal mellan 0 och X - 1.
+    randomAlternative(LISTA)
+    Returnerar ett slumpmässigt element från en lista.
+    rectangle(X, Y, BREDD, HÖJD, FÄRG)
+    Ritar en rektangel på koordinaten (X, Y) med den givna bredden, höjden och färgen.
+    restore()
+    Återställer koordinatsystemet till det tillstånd som det var i vid det senaste anropet av save().
+    ring(X, Y, RADIE, TJOCKLEK, FÄRG)
+    Ritar en ring på position (X, Y) med den givna radien, linjetjockleken och färgen.
+    rotate(GRADER)
+    Roterar koordinatsystemet med GRADER grader.
+    rotateRadians(RADIANER)
+    Roterar koordinatsystemet med RADIANER radianer.
+    save()
+    Sparar koordinatsystemets nuvarande läge.
+    scale(X-FAKTOR, Y-FAKTOR)
+    Förstorar eller förminskar hela koordinatsystemet i X- respektive Y-ledd. Om ett negativt tal anges blir koordinatsystemet spegelvänt kring den axeln.
+    Exempel: scale(2, 2) (allt blir dubbelt så stort)
+    Exempel: scale(1, -1) (allt blir upp-och-nedvänt)
+    showMouse()
+    Gör att muspekaren blir synlig.
+    sin(V) cos(V) tan(V) asin(V) acos(V) atan(V)
+    De vanligaste trigonometriska funktionerna sinus, cosinus, tangens samt deras inverser. Alla tar som argument en vinkel uttryckt i radianer.
+    sqrt(X)
+    Returnerar kvadratroten av talet X.
+    start()
+    Den första funktionen som körs.
+    stopSound(LJUD)
+    Stoppar ett ljud om det håller på att spelas upp.
+    stopUpdate()
+    Stoppar update()-funktionen och avslutar därmed animeringen.
+    text(X, Y, STORLEK, TEXTSTRÄNG, FÄRG)
+    Ritar ut textsträngen TEXTSTRÄNG på koordinaten (X, Y) med den givna färgen och storleken.
+    totalHeight
+    Den totala höjden på den tillgängliga ritytan.
+    totalWidth
+    Den totala bredden på den tillgängliga ritytan.
+    touchscreen
+    Ett objekt som innehåller information om användarens petskärm. Objektet innehåller variabeln currentlyTouched, som är sann eller falsk beroende på om någon petar för tillfället, samt arrayen points som innehåller de beröringspunkter som just då finns. Varje beröring har tre egenskaper, x, y och id.
+    translate(X, Y)
+    Förflyttar koordinatsystemets origo till koordinaten (X, Y).
+    triangle(X1, Y1, X2, Y2, X3, Y3, FÄRG)
+    Ritar en triangel som har sina hörn på koordinaterna (X1, Y1), (X2, Y2) och (X3, Y3) med den givna färgen.
+    turtle
+    Ett objekt som man kan använda för att göra så kallad turtlegrafik.
+    update()
+    En funktion som anropas många gånger per sekund och gör det möjligt för programmeraren att skapa rörliga objekt.
+    updatesPerSecond
+    Innehåller ett tal som anger hur många gånger per sekund som update() anropas.
+    */
+
+    var prob = 0.4;
+    let clicked = false;
+    let user = false;
+    var totalWidth = 600;
+    var totalHeight = 600;
+    console.log("Program started");
+
+    const horiList = new Array(9);
+    for (let i = 0; i < 9; i++) {
+        horiList[i] = new Array(9);
+        for (let j = 0; j < 9; j++) {
+          horiList[i][j] = 0;
+        }
+    }
+    const vertList = new Array(9);
+    for (let i = 0; i < 9; i++) {
+        vertList[i] = new Array(9);
+        for (let j = 0; j < 9; j++) {
+          vertList[i][j] = 0;
+        }
+    }
+    const cubeList = new Array(9);
+    for (let i = 0; i < 9; i++) {
+        cubeList[i] = new Array(9);
+        for (let j = 0; j < 9; j++) {
+          cubeList[i][j] = 0;
+        }
+    }
+
+    createNumbers();
+    /*
+    ClEAR LIST
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0]
+    */
+    let inputList = [
+      [8,0,0,0,0,0,0,0,0],
+      [0,0,3,6,0,0,0,0,0],
+      [0,7,0,0,9,0,2,0,0],
+      [0,5,0,0,0,7,0,0,0],
+      [0,0,0,0,4,5,7,0,0],
+      [0,0,0,1,0,0,0,3,0],
+      [0,0,1,0,0,0,0,6,8],
+      [0,0,8,5,0,0,0,1,0],
+      [0,9,0,0,0,0,4,0,0]
+    ];
+
+    console.log(inputList);
+    drawCourt();
+    let rH;
+    let rV;
+    let rC;
+    let compareList;
+    if (user) {
+      transscript();
+      console.log(rH);
+    }else {
+      stripLists();
+    }
+
+    drawNumbers(rH);
+
+    let tH;
+    let tV;
+    let tC;
+    let results = 0;
+    let recCount = 0;
+
+    function update(){
+      if (keyboard.g && !clicked) {
+        console.log("STARTED");
+
+        tryer();
+
+
+        drawNumbers(rH);
+        clicked = true;
+      }
+
+
+      /*
+      if (results != 1 && clicked) {
+        console.log("RESULT IS " + results.toString());
+        stripLists();
+        results = 0;
+        tryer();
+        drawNumbers(rH);
+      }
+      */
+  }
+
+    function drawCourt() {
+
+      line(totalWidth/3,0,totalWidth/3,totalHeight,3,"black");
+      line(2*totalWidth/3,0,2*totalWidth/3,totalHeight,3,"black");
+      line(0,totalHeight/3,totalWidth,totalHeight/3,3,"black");
+      line(0,2*totalHeight/3,totalWidth,2*totalHeight/3,3,"black");
+
+      for (let i = 0; i < 9; i++) {
+        line((totalWidth/9)*(1+i),0,(totalWidth/9)*(1+i),totalHeight,1,"black");
+        line(0,(totalHeight/9)*(1+i),totalWidth,(totalHeight/9)*(1+i),1,"black");
+      }
+
+    }
+
+    function createNumbers(){
+      for (let i = 0; i < 9; i++) {
+
+        for (let j = 0; j < 9; j++) {
+
+          let p = random(9)+1;
+          let t = true;
+
+
+          for (let k = 0; k < 9; k++) {
+
+            if (p==horiList[i][k]) {
+              if(j==k){continue;}
+              j = j - 1;
+              t = false;
+              break;
+            }
+
+          }
+
+          if (t==true) {
+              for (let k = 0; k < 9; k++) {
+
+                if (p==vertList[j][k]) {
+                  if(i==k){continue;}
+                  t = false;
+                  i = i - 1;
+                  break;
+                }
+              }
+          }
+
+          if (t==true) {
+              for (let k = 0; k < 9; k++) {
+
+                if (p==cubeList[findCube(j,i)][k]) {
+                  if(findSquare(i,j)==k){continue;}
+                  t = false;
+                  i = i - 1;
+                  break;
+                }
+              }
+          }
+
+          if (t == true){
+              horiList[i][j] = p;
+              vertList[j][i] = p;
+              cubeList[findCube(j,i)][findSquare(i,j)] = p;
+          }
+
+        }
+      }
+    }
+
+    function stripLists(){
+      let returnList = strip(horiList,vertList,cubeList)
+      rH = returnList[0];
+      rV = returnList[1];
+      rC = returnList[2];
+      compareList = new Array(9);
+
+      for (let i = 0; i < rH.length; i++) {
+        compareList[i] = new Array(9);
+        for (let j = 0; j < rH[i].length; j++) {
+          compareList[i][j] = rH[i][j];
+        }
+      }
+    }
+
+    function tryer(){
+      tH = rH;
+      tV = rV;
+      tC = rC;
+      results = 0;
+
+      tryBoard(0,0,true);
+
+    }
+
+    function transscript(){
+      rH = new Array(9);
+      rV = new Array(9);
+      rC = new Array(9);
+      compareList = new Array(9);
+
+      for (let i = 0; i < 9; i++) {
+        rH[i] = new Array(9);
+        rV[i] = new Array(9);
+        rC[i] = new Array(9);
+      }
+
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          rH[i][j] = inputList[i][j];
+        }
+      }
+
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          rV[j][i] = rH[i][j];
+          rC[findCube(j,i)][findSquare(i,j)] = rH[i][j];
+        }
+      }
+
+      for (let i = 0; i < rH.length; i++) {
+        compareList[i] = new Array(9);
+        for (let j = 0; j < rH[i].length; j++) {
+          compareList[i][j] = rH[i][j];
+        }
+      }
+    }
+
+    function drawNumbers(toList) {
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (toList[i][j] != 0){
+            text((j)*(totalWidth/9)+(totalWidth/54),(i+1)*(totalHeight/9)-(totalHeight/9)/6,0.8*(totalHeight/9),(toList[i][j]).toString(),"black");
+          }
+        }
+      }
+    }
+
+
+    function findCube(x,y) {
+      if (Math.ceil((x+1)/3)== 1) {
+        if (Math.ceil((y+1)/3)==1) {
+          return 0;
+        }
+        if (Math.ceil((y+1)/3)==2) {
+          return 1;
+        }
+        if (Math.ceil((y+1)/3)==3) {
+          return 2;
+        }
+      }
+      if (Math.ceil((x+1)/3)== 2) {
+        if (Math.ceil((y+1)/3)==1) {
+          return 3;
+        }
+        if (Math.ceil((y+1)/3)==2) {
+          return 4;
+        }
+        if (Math.ceil((y+1)/3)==3) {
+          return 5;
+        }
+      }
+      if (Math.ceil((x+1)/3)== 3) {
+        if (Math.ceil((y+1)/3)==1) {
+          return 6;
+        }
+        if (Math.ceil((y+1)/3)==2) {
+          return 7;
+        }
+        if (Math.ceil((y+1)/3)==3) {
+          return 8;
+        }
+      }
+    }
+
+    function findSquare(x,y){
+      if (x-3*Math.floor((x)/3)== 0) {
+        if (y-3*Math.floor((y)/3)== 0) {
+          return 0;
+        }
+        if (y-3*Math.floor((y)/3)== 1) {
+          return 1;
+        }
+        if (y-3*Math.floor((y)/3)== 2) {
+          return 2;
+        }
+      }
+      if (x-3*Math.floor((x)/3)== 1) {
+        if (y-3*Math.floor((y)/3)== 0) {
+          return 3;
+        }
+        if (y-3*Math.floor((y)/3)== 1) {
+          return 4;
+        }
+        if (y-3*Math.floor((y)/3)== 2) {
+          return 5;
+        }
+      }
+      if (x-3*Math.floor((x)/3)== 2) {
+        if (y-3*Math.floor((y)/3)== 0) {
+          return 6;
+        }
+        if (y-3*Math.floor((y)/3)== 1) {
+          return 7;
+        }
+        if (y-3*Math.floor((y)/3)== 2) {
+          return 8;
+        }
+      }
+    }
+
+    function strip(hL,vL,cL){
+      let retH = new Array(9);
+      let retV = new Array(9);
+      let retC = new Array(9);
+
+      for (let i = 0; i < 9; i++) {
+        retH[i] = new Array(9);
+        retV[i] = new Array(9);
+        retC[i] = new Array(9);
+      }
+
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (Math.random() > prob) {
+            retH[i][j] = 0;
+            retV[j][i] = 0;
+            retC[findCube(j,i)][findSquare(i,j)] = 0;
+          } else {
+            retH[i][j] = hL[i][j];
+            retV[j][i] = vL[j][i];
+            retC[findCube(j,i)][findSquare(i,j)] = cL[findCube(j,i)][findSquare(i,j)];
+          }
+
+        }
+      }
+      return [retH,retV,retC];
+    }
+
+    function sleep(milliseconds) {
+      var start = new Date().getTime();
+      for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+          break;
+        }
+      }
+    }
+
+    function boundCheck(i,j){
+      if (j == 9) {
+        i += 1;
+        j = 0;   //next row
+      }
+
+      if (j == -1) {
+        i -= 1;
+        j = 8;  //prev row
+      }
+
+      return [i,j];
+    }
+    /*
+    hori[i][j] = p;
+    vert[j][i] = p;
+    cube[findCube(j,i)][findSquare(i,j)] = p;
+    */
+    function tryBoard(i,j,dir,nuu){ //ALGORITHM
+      fill("white");
+      drawCourt();
+      drawNumbers(tH);
+      recCount += 1;
+
+      if (i == 0 && j == -1){
+        console.log("No of results is " + results.toString())
+        return ;
+      }
+
+      let finished = true;
+      for (var h = 0; h < tH.length; h++) {
+        if(tH[h].includes(0)){
+          finished = false;
+          break;
+        }
+      }
+
+      if (finished && !nuu) {
+        if (results >= 1) {
+          console.log("BAAM");
+          stripLists();
+          tryer();
+          return ;
+        }
+        console.log("Solution found");
+        results += 1;
+        if (user) {
+            return ;
+        }
+        tryBoard(i,j-1,false,true)
+        return ;
+      }
+
+
+      let boundL = boundCheck(i,j);
+      i = boundL[0];
+      j = boundL[1];
+
+      if (compareList[i][j] != 0) {
+        if (dir){
+          tryBoard(i,j+1,true,false);
+          return ;
+
+        } else {
+          tryBoard(i,j-1,false,nuu);
+          return ;
+
+        }
+      }
+
+      let start = tH[i][j] + 1;
+
+
+
+
+      tH[i][j] = 0;
+      tV[j][i] = 0;
+      tC[findCube(j,i)][findSquare(i,j)] = 0;
+
+      if (start != 10) {
+        for (var p = start; p < 10; p++) {
+          if (!tH[i].includes(p) && !tV[j].includes(p) && !tC[findCube(j,i)].includes(p)) {
+
+            tH[i][j] = p;
+            tV[j][i] = p;
+            tC[findCube(j,i)][findSquare(i,j)] = p;
+            if (recCount > 5500){
+              setTimeout(tryBoard,0,i,j+1,true);
+              recCount = 0;
+            } else {
+              tryBoard(i,j+1,true,false);
+            }
+            return ;
+
+          }
+        }
+      }
+
+      tryBoard(i,j-1,false,false);
+      return ;
+
+    }
+
+
+
+   </script>
+
+   <form>
+
+   </form>
+
+  </body>
+</html>
