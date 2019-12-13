@@ -1,5 +1,5 @@
 import re
-file = open("Day1_prob1.txt","r")
+file = open("Day1.txt","r")
 
 masses = [int(line[:-1]) for line in file]
 masses[-1] = 117809
