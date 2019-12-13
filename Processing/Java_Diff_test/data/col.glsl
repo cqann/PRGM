@@ -26,7 +26,7 @@ void main(void){
 	float gry = 1- gl_FragCoord.y / 800.0;
 	float x = (grx)*(xmax-xmin)+xmin;
 	float y = (gry)*(ymax-ymin)+ymin;
-	float dy = sin(x-y*sin(k))/tan(x*cos(k)*cos(y));
+	float dy = (2*y-x*x*x*cos(x))/x;
 	float angle = -atan(dy);
 	float hue = (angle+1.570796)/(3.1415962);
 	vec3 hsb = vec3(hue, 1.0, 1.0);
