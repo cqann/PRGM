@@ -18,13 +18,6 @@ for line in final_image:
     print("".join(line).replace("0","-"))
 
 
-'''
-for i in range(len(final_image)):
-    for j in range(len(final_image[i])):
-        if final_image[i][j] == 2:
-            final_image[i][j] = 
-'''
-
 
 
 
