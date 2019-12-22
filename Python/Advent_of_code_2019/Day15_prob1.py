@@ -1,4 +1,25 @@
 import random
+import sys
+import os
+
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
+
+def display():
+    for pixel in points:
+        px = int(pixel[0])
+        py = int(pixel[1])
+        try:
+            screen[py][px] = points[pixel][0]
+        except IndexError:
+            for i in range(py-len(screen) +1):
+                screen.append([])
+            screen[py] += [" "]*(1 + px-len( screen[py] ) )
+            screen[py][px] = points[pixel][0]
+
+    for line in screen:
+        print("".join(line))
+
 def pm(inpt,m,i,offset):
     if m == "0":
         return inpt[i+offset]
@@ -12,11 +33,20 @@ inpt += [0]*999999
 rel = 0
 i = 0
 
-x = 0
-y = 0 
-count = 0
+x = 20
+y = 20
+last_x = x
+last_y = y
+cur_dir = 1
+dir_counter = 0
+turn_dic = {1:[4,1,3,2],2:[3,2,4,1],3:[1,3,2,4],4:[2,4,1,3]}
+steps = 0
+screen = []
+points = {(x,y):[".",1]}
 
-while inpt[i] != 99:
+
+
+while len(points) < 799:
     cur = str(inpt[i])
     op_code = cur[-2:] if len(cur) >= 2 else inpt[i]
     if op_code == "01" or op_code == 1:
@@ -35,23 +65,46 @@ while inpt[i] != 99:
 
     elif op_code == "03" or op_code == 3:
         p1 = cur[-3] if len(cur) >= 3 else "0"
-        inpt[pm(inpt,p1,i,1 )] = (count%4) + 1
+        inpt[pm(inpt,p1,i,1 )] = turn_dic[cur_dir][dir_counter]
         i += 2 
 
     elif op_code == "04" or op_code == 4:
         p1 = cur[-3] if len(cur) >= 3 else "0"
         status = inpt[pm(inpt,p1,i,1 )]
-        move = (count%4) + 1
+        
         if status != 0:
-            if move <= 2:
-                y -= (move-1.5)*2
+            last_x = x
+            last_y = y
+            if turn_dic[cur_dir][dir_counter] <= 2:
+                y -= (turn_dic[cur_dir][dir_counter]-1.5)*2
             else: 
-                x += (move-3.5)*2
+                x += (turn_dic[cur_dir][dir_counter]-3.5)*2
             
-            if status == 2:
-                break
+            if (x,y) not in points:
+                points[(x,y)] = [".",1]
+                steps += 1
+            else:
+                points[(x,y)][1] += 1
+                steps -= 1
+
+            cur_dir = turn_dic[cur_dir][dir_counter]
+            dir_counter = 0
+
         else:
-            count += random.randint(1,4)
+            if turn_dic[cur_dir][dir_counter] <= 2:
+                fakey = y -(turn_dic[cur_dir][dir_counter]-1.5)*2
+                fakex = x
+            else: 
+                fakey = y
+                fakex = x + (turn_dic[cur_dir][dir_counter]-3.5)*2
+            '''
+            if (fakex,fakey) not in points:
+                points[(fakex,fakey)] = ["#",1]
+            '''
+            dir_counter += 1
+        
+        
+        
         i += 2
 
     elif op_code == "05" or op_code == 5:
@@ -94,12 +147,76 @@ while inpt[i] != 99:
         p1 = cur[-3] if len(cur) >= 3 else "0"
         rel += inpt[pm(inpt,p1,i,1 )]
         i += 2
-    
-print(x,y)
-    
-    
 
+    
+display() 
+oxy_points = {}   
+def fill(x,y,depth):
+    oxy_points[(x,y)] = True
+    record = depth
+    if (x-1,y) in points and (x-1,y) not in oxy_points :
+        r_val = fill(x-1,y,depth+1)
+        record = r_val if r_val > record else record
+    if (x+1,y) in points and (x+1,y) not in oxy_points:
+        r_val = fill(x+1,y,depth+1)
+        record = r_val if r_val > record else record
+    if (x,y-1) in points and (x,y-1) not in oxy_points:
+        r_val = fill(x,y-1,depth+1)
+        record = r_val if r_val > record else record
+    if (x,y+1) in points and (x,y+1) not in oxy_points:
+        r_val = fill(x,y+1,depth+1)
+        record = r_val if r_val > record else record
+    return record 
 
+t = fill(32,6,0)
+
+print(t)
+
+'''
+lock på 32.0 6.0
+n_points = 799
+# ####### ####### ######### ####### ###
+.#.......#....#..#.........#.......#...#
+.#.###.###.#####.###.#####.#.###.###.#.#
+.#.#...#...#..##.....#.....#...#.....#.#
+.#.#.###.#############.#######.#######.#
+...#.#...#...#..##...#...#.....#...#...#
+.###.#.###.###.###.#####.###.#####.#.#.#
+.#...#.#.#.#...###.........#.......#.#.#
+.#.#.#.#.#.#.#####.#######.#####.###.#.#
+.#.#.#.#.#...#.#.#.#..##.......#.#...#.#
+.#.###.#.#####.#.###.#########.###.###.#
+.#...#.#.......#.....#....##.....#...#.#
+.###.#.#.###.#.#################.###.#.#
+...#...#.#...#...#.......#....##.....#.#
+##.#####.#.###.###.#####.###.#.########
+...#.#...#...#.#...#...#...#.#........##
+.###.#.## ##.#.#.###.#.###.#.#####.#####
+.#...#...#.#.#.#.#...#.#...#.#...#.#..##
+.#.#.###.#.#.###.#.###.#.#####.#.#.#.##
+.#.#...#.#.#...#...#...#.......#.#.#.#.#
+.#.###.#.#.###.#################.###.#.#
+.#.#...#.....#...#.......#.....#.....#.#
+.#.#######.###.#.#.#####.#.###########.#
+.#.......#.#...#.#...#...#...#.........#
+.#.#####.#.#.###.###.#.###.#.#.#.#####.#
+.#.#.#...#.#.#.......#.#...#...#...#...#
+.#.#.#.#.#.#.#########.#.#######.#.###.#
+.#...#.#.#.#...#...#...#.#.....#.#...#.#
+.###.#.###.###.#.#.#.#####.###.#####.#.#
+.#...#...#.#.#...#.#.......#.#.#.....#.#
+.#.#####.#.#.#####.#########.#.#.#####.#
+.#.#...#.....#...#.....#.#.....#.#...#.#
+.#.###.#######.#.#####.#.#.#####.#.#.#.#
+.#.....#.#.....#.#.....#.#...#...#.#...#
+.#####.#.#.#####.#.#####.###.#.#.#####.#
+...#.....#...#.#...#.......#.#.#.#...#.#
+##.#########.#.#####.#####.#.#.###.#.#.#
+.#.#...#...#.#.#.....#.....#.#.....#.#.#
+.#.#.#.#.#.#.#.#.#.#########.#######.#.#
+.....#...#...#...#...................#.#
+##### ### ### ### ################### #
+'''
 
 
 
