@@ -28,7 +28,7 @@ diffs = []
 for i in range(10000):
     trickle("FUEL",1)
 
-print(vals[0]-storage["ORE"])
+print(storage["ORE"])
 
 
 
