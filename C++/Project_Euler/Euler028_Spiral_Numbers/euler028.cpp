@@ -4,58 +4,92 @@
 #include <vector>
 using namespace std;
 
-bool isPrime(int n){
-    int i = 2;
-    while (i < ceil(sqrt(n)))
-    {
-        if(n%i == 0){
-            return false;
-        }
-        i++;
-    }
-    return true;
-}
+
 
 int main()
 {
-    int record = 0;
-    int bestA;
-    int bestB;
+   
+    long long result = 1;
+    int layer = 1;
+    int ptsVisitedInLayer = 0;
+    int ptsInLayer = pow(layer*2 + 1, 2);
+    int index = 2;
+    int offsetCounter = 0;
+    vector <int> pts;
+    while(index <= 1001*1001){
 
-    for (int a = -1000; a <= 1000; a++)
-    {
-        for (int b = -1000; b <= 1000; b++)
-        {
-            
-            int cur;
-            int n = -1;
-            do
-            {
-                n++;
-                cur = n*n + a*n + b;
-            } while (isPrime(abs(cur)));
-            
-            if (record < n)
-            {
-                record = n;
-                bestA = a;
-                bestB = b;
-            }
-            
+        if (ptsVisitedInLayer == ptsInLayer){
+            layer++;
+            ptsVisitedInLayer = 0;
+            ptsInLayer = pow(layer*2 + 1,2) - pow((layer-1)*2 + 1,2) ;
+            offsetCounter = 0 ;
+
         }
-        cout << a << endl;
+
+        if(index%2 == 1){
+            if (offsetCounter == layer-1){
+                result += index;
+
+                pts.push_back(index);
+                printf("%d %d %d, ",index, offsetCounter,layer);
+                offsetCounter = 0;
+            } else {
+                offsetCounter += 1;
+            }
+        }
+
+        ptsVisitedInLayer++;
+        index++;
+        
+        
+        
     }
     
-    cout << bestA << endl;
-    cout << bestB;
-   
-    
+    cout << endl << endl << result << endl;
+    cout << pts.size()/8 + 1;
     return 0;
 
 }
 
 
 
+
+
+
+/*
+int main()
+{
+    int index = 0;
+    int layer = 0;
+    int ptsVisitedInLayer = 0;
+    int ptsInLayer = pow(layer*2 + 1,2);
+    int y = 501;
+    int x = 501;
+    vector<vector<int>> pts;
+
+    while(index != 1001*1001){
+        vector <int> cur {x,y,index+1};
+        pts.push_back(cur);
+        ptsVisitedInLayer++;
+
+        if (ptsVisitedInLayer == ptsInLayer){
+            layer++;
+            ptsVisitedInLayer = 0;
+            ptsInLayer = pow(layer*2 + 1,2);
+        }
+
+
+        index++;
+    }
+
+    
+
+    return 0;
+
+}
+
+
+*/
 
 
 
