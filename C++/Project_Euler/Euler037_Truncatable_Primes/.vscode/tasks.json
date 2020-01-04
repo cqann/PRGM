@@ -2,10 +2,10 @@
     "version": "2.0.0",
     "tasks": [
       {
-        "label": "euler036",
+        "label": "euler037",
         "type": "shell",
         "command": "g++",
-        "args": ["-g", "-o", "euler036", "euler036.cpp"],
+        "args": ["-g", "-o", "euler037", "euler037.cpp"],
         "group": {
           "kind": "build",
           "isDefault": true

@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/euler036.exe",
+            "program": "${workspaceFolder}/euler037.exe",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",

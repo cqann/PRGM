@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "two_sum",
+        "type": "shell",
+        "command": "g++",
+        "args": ["-g", "-o", "two_sum", "two_sum.cpp"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }

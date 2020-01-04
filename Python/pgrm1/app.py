@@ -1,42 +1,28 @@
 import math
 
-def base_converter(x):
-    highest_exp = 0
-    
-
-    while 2**highest_exp <= x:
-        highest_exp += 1
-
-    res = ""
-
-    while highest_exp>= 0:
-        if (x - pow(2,highest_exp) >= 0):
-            res += "1"
-            x -= pow(2,highest_exp)
-        else:
-            res += "0"
-        
-        highest_exp -= 1
-    
-
-    return int(res[1:])
-
-
-
-def is_pal(n):
-    nlist = list(str(n))
-    for i in range(math.ceil(len(nlist))):
-        if nlist[i] != nlist[len(nlist)-1-i]:
+def is_prime(x):
+    for i in range(2,int(math.sqrt(x)+1)):
+        if x%i == 0:
             return False
+
     return True
 
+count = 0
+for i in range(10,1000000):  
+    if not is_prime(i):
+        continue  
+    cur = str(i)
+    t = True
+    for j in range(len(cur)):
+        val1 = int(cur[0:len(cur)-j])
+        #val2 = int(cur[j:len(cur)])
+        if not is_prime(val1):
+            t = False
+        if not is_prime(val1):
+            t = False
+    
+    if t:
+        count += 1
+        
 
-result = 0
-for i in range(1,1000000):
-    if is_pal(i) and is_pal(base_converter(i)):
-        result += i
-        print(i)
-
-print(result)
-
-
+print(count)
