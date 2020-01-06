@@ -1,53 +1,59 @@
-import bisect
-
+import math
 n = int(input())
-lectures = [[int(x) for x in input().split(" ")] for i in range(n)]
+garland = []
+gar_pairs = 0
+flip = False
 
+nU = math.ceil(n/2.0 - 0.1)
+nE = math.floor(n/2.0 + 0.1) 
 
-a_tbans = set()
-b_tbans = set()
+holes = []
+inpt = [int(x) for x in input().split(" ")]
+for c in range(len(inpt)):
+    cur = inpt[c]%2==0 if inpt[c]!= 0 else None
+    after = (inpt[c+1]%2==0 if inpt[c+1]!=0 else None) if c!=n-1 else None
+   
+    garland.append(inpt[c])
+    if cur != None:     
+        if cur:
+            nE -= 1
+        else:
+            nU -= 1
 
-ab = []
-
-happy = True 
-
-for lecture in lectures:
-    acur = True
-    bcur = True 
-    a_to_add = []
-
-    for i in ab:
-        if max(lecture[0],i[0]) <= min(lecture[1],i[1]):
-            if lecture[1] > i[1]:
-                c_l = list(i)
-                c_l[1] = lecture[1]
-                a_to_add.append(c_l)
-                c#JAG ORKAR INTE, hejdå
-            if lecture[0] < i[0]:
-                i[0] = lecture[0]
-            acur = False 
-        for 
-
-
-    if not acur:
-        ab.append((lecture[0],lecture[1]))
-    
-    for i in range(lecture[2],lecture[3]+1):
-        if i in b_tbans:    
-            bcur = False
-            break
-        b_tbans.add(i)
-    
-    if acur != bcur:
-        happy = False
+coming = 16
+for s in range(len(garland)):
+    if garland[s] != 0:
+        coming = 0 if  garland[s]%2 == 0 else 1
         break
+pairs = 0
+print(nE,nU)
+for s in range(len(garland)):
+    if garland[s] == 0:
+        if coming == 0:
+            if nE != 0:
+                garland[s] = 0
+                nE -= 1
+            elif nU != 0:
+                garland[s] = 1                
+                nU -= 1
+        else:
+            if nU != 0:
+                garland[s] = 1
+                nU -= 1
+            elif nE != 0:
+                garland[s] = 0
+                nE -= 1
+    else:
+        coming = 0 if  garland[s]%2 == 0 else 1
 
 
-if happy:
-    print("YES")
-else:
-    print("NO")
+for c in range(len(garland)-1):
+    cur = garland[c]%2==0
+    after = garland[c+1]%2==0
+    
+    if cur != after:
 
+        pairs += 1
 
-
+print(pairs)
 

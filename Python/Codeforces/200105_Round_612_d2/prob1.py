@@ -1,10 +1,23 @@
 
+t = int(input())
+groups = []
 
-n, m = [int(x) for x in input().split(" ")]
-n_str = input().split(" ")
-m_str = input().split(" ") 
-q = int(input())
-years = [int(input())-1 for x in range(q)]
+for i in range(t):
+    longest = 0
+    cur = 0
+    started = False
+    l = int(input())
+    for k in input():   
+        if k == "A":
+            started = True
+            longest = max(longest,cur)
+            cur = 0
+        else:
+            if started:
+                cur += 1
+        
+    
+    longest = max(longest,cur)
 
-for year in years:
-    print(n_str[year%n] + m_str[year%m])
+    print(longest)
+
