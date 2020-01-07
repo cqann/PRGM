@@ -20,29 +20,32 @@ for c in range(len(inpt)):
         else:
             nU -= 1
 
-coming = 16
+coming = 1
 for s in range(len(garland)):
     if garland[s] != 0:
         coming = 0 if  garland[s]%2 == 0 else 1
         break
 pairs = 0
-print(nE,nU)
 for s in range(len(garland)):
     if garland[s] == 0:
         if coming == 0:
             if nE != 0:
                 garland[s] = 0
                 nE -= 1
+                coming = 0
             elif nU != 0:
                 garland[s] = 1                
                 nU -= 1
+                coming = 1
         else:
             if nU != 0:
                 garland[s] = 1
                 nU -= 1
+                coming = 1
             elif nE != 0:
                 garland[s] = 0
                 nE -= 1
+                coming = 0
     else:
         coming = 0 if  garland[s]%2 == 0 else 1
 
@@ -56,4 +59,3 @@ for c in range(len(garland)-1):
         pairs += 1
 
 print(pairs)
-
