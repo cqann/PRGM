@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "doraemon",
+        "type": "shell",
+        "command": "g++",
+        "args": ["-g", "-o", "doraemon", "doraemon.cpp"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }

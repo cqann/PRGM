@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "wifi",
+        "type": "shell",
+        "command": "g++",
+        "args": ["-g", "-o", "wifi", "wifi.cpp"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }

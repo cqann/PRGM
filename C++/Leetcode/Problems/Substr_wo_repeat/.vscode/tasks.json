@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "substr_wo_repeat",
+        "type": "shell",
+        "command": "g++",
+        "args": ["-g", "-o", "substr_wo_repeat", "substr_wo_repeat.cpp"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }

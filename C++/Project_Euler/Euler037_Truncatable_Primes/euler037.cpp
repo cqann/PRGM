@@ -29,7 +29,6 @@ int main()
         for (int j = 0; j < cur.size() && truncable; j++){
             int val1 = stoi(cur.substr(0,cur.size()-j));
             int val2 = stoi(cur.substr(j,cur.size()-j));
-            
             if (!isPrime(val1)) truncable = false;
             if (!isPrime(val2)) truncable = false;
             

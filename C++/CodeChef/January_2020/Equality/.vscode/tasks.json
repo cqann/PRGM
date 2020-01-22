@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "equality",
+        "type": "shell",
+        "command": "g++",
+        "args": ["-g", "-o", "equality", "equality.cpp"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
