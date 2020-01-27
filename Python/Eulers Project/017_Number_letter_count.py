@@ -27,4 +27,4 @@ for i in range(1,1000):
     else:
         tot += digit_dic[int(n_split[0])]
 print(tot)
-
+print("ska ska bom")
