@@ -30,11 +30,11 @@ for t in range(n_test):
     to_check.append(cur)
 
 fmax = max(max_a, max_b)
-result = [None] * (fmax + 1)
+result = []
 s = 0
 for i in range((fmax//9)):
     s += 9*i
-    result[i] = s
+    result.appned(s)
 
 for i in to_check:
     print(result[max(i[0],i[1])-1])

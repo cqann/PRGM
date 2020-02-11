@@ -20,6 +20,7 @@ for i in range(2,1000):
 # print(Decimal(1/13))
 print(Decimal(1/17))
 print(1/17)
+print(D)
 # print(Decimal(1/19))
 
 

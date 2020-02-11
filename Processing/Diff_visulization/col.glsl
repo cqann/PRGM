@@ -23,7 +23,7 @@ void main(void){
 	float grX = (pos.x)*(xmax-xmin)+xmin;
 	float grY = (pos.y)*(ymax-ymin)+ymin;
 	vec2 gr = vec2(grX,grY);
-	float dy = gr.y + gr.x;
+	float dy = cos(k*sin(gr.y-gr.x))-sin(k*cos(gr.x+gr.y));
 	float angle = -atan(dy);
 	float hue = (angle+1.570796)/(3.1415962);
 	vec3 hsb = vec3(hue, 1.0, 1.0);

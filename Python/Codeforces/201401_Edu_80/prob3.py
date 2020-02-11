@@ -10,21 +10,14 @@ def calc(n,m):
     return ((n*(n+1))/2 ) + calc(n,m-1)
 
 
-def dimension_triangle(x, d):
-    resss = 0
-    if d == -1:
-        return 1
-    if d == 0:
-        return x
-    for i in range(x+1):
-        resss += dimension_triangle(i, d-1)
-    return resss
 
 n,m = [int(x) for x in  input().split(" ")]
 
 initial = 2 * n**m
+n_desc = n
 
-print(dimension_triangle(n,m))
+
+print(calc(n,m))
 
 
 
