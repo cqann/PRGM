@@ -1,32 +1,38 @@
 
 
-N,M = [int(x) for x in input().split(" ")]
+N, M = [int(x) for x in input().split(" ")]
 
 mapp = [[int(x) for x in input()] for _ in range(N)]
-mapp.insert(0,[0 for _ in range(M)])
+
+mapp.insert(0, [0 for _ in range(M)])
+mapp.insert(0, [-2 for _ in range(M+4)])
 mapp.append([0 for _ in range(M)])
-for i in range(N+2):
-    mapp[i].insert(0,0)
+mapp.append([-2 for _ in range(M+4)])
+for i in range(1, N+3):
+    mapp[i].insert(0, 0)
+    mapp[i].insert(0, -2)
     mapp[i].append(0)
+    mapp[i].append(-2)
+
+count = 0
 
 
+cur_layer = [(1, 1)]
 
-count = 0 
+while cur_layer != []:
+    next_layer = []
 
-for y in range(len(mapp)):
-    for x in range(len(mapp[y])):
-        if mapp[y][x] == 1: continue
-        
-        cur_c = 0
-        for nbr in [(0,-1),(0,1),(-1,0),(1,0)]:
-            ch_x = x + nbr[0]
-            ch_y = y + nbr[1]
-            if ch_x >= 0 and ch_x < M + 2 and ch_y >= 0 and ch_y < N + 2:
-                if mapp[ch_y][ch_x] == 1:
-                    cur_c += 1
-        
-        if cur_c != 4:
-            count += cur_c
+    for cell in cur_layer:
+        for neigh in [(0, -1), (0, 1), (-1, 0), (1, 0)]:
+            new_x = cell[0] + neigh[1]
+            new_y = cell[1] + neigh[0]
+            cur_c = 0
+            if mapp[new_y][new_x] == 0:
+                next_layer.append((new_x, new_y))
+                mapp[new_y][new_x] = -1
+            elif mapp[new_y][new_x] == 1:
+                count += 1
+
+    cur_layer = next_layer
 
 print(count)
-            
