@@ -22,4 +22,4 @@ for m in range(3):
 
 arr.sort()
 for i in arr:
-    print(i/25)
+    print(i)
