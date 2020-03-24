@@ -1,5 +1,6 @@
 require 'httparty'
 require 'nokogiri'
+require 'byebug'
 
 def scraper
     url = "https://www.worldometers.info/coronavirus/"
@@ -9,14 +10,16 @@ def scraper
     rows = table.css('tr')
 
     output_list = []
-    
+    search = {}
+
+
     for row in rows
         
         cells = row.css('td')
         name = cells.first.text.strip
         tot = cells[1].text.gsub(/[,]/ ,"").to_i
         
-        if tot < 30
+        if tot < 100
             break
         end
 
@@ -30,7 +33,7 @@ def scraper
         change *= 100
         change = change.round
         output_list << [-change,tot,name]
-    
+        search[name] = "+#{change}%"
     end
 
     output_list = output_list.sort 
@@ -38,6 +41,8 @@ def scraper
     for country in output_list
         puts "#{country.last} +#{-1*country.first}% #{country[1]}" 
     end
+
+    byebug
 end
 
 scraper
