@@ -19,7 +19,7 @@ def scraper
         name = cells.first.text.strip
         tot = cells[1].text.gsub(/[,]/ ,"").to_i
         
-        if tot < 100
+        if tot < 300
             break
         end
 
@@ -32,14 +32,14 @@ def scraper
 
         change *= 100
         change = change.round
-        output_list << [-change,tot,name]
+        output_list << [-change,tot,-new_cases,name]
         search[name] = "+#{change}%"
     end
 
     output_list = output_list.sort 
 
     for country in output_list
-        puts "#{country.last} +#{-1*country.first}% #{country[1]}" 
+        puts "#{country.last} +#{-1*country.first}% +#{-1*country[2]} #{country[1]}" 
     end
 
     byebug

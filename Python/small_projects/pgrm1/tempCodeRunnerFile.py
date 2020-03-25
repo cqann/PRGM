@@ -1,0 +1,1 @@
+2*math.pi*i)*((i/math.e)**i))
