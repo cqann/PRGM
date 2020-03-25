@@ -2,40 +2,49 @@ require 'Prime'
 require 'set'
 require 'time'
 
-def find_pfact(n)
-    facts = Set.new()
-    nc = n
-    Prime.each(n) do |pr|
-        break if pr > nc
-        while nc % pr == 0
-            facts.add(pr)
-            nc /= pr
-        end
-    end
-
-    return facts
-end
 
 t0 = Time.now
 
+
 i = 2
-p1 = Set.new([2])
-p2 = Set.new([3])
-p3 = Set.new([2])
-p4 = Set.new([5])
+not_four = true 
+
+#this works but had faster verision before, aja jag lär mig
+#dab dab dab 
 
 while true
     i += 1
-    p1 = p2
-    p2 = p3
-    p3 = p4
-    p4 = find_pfact(i+3)
-    if p1.length() != 4 || p2.length() != 4 || p3.length() != 4 || p4.length() != 4
-        next
-    end
-    common = p1 & p2 & p3 & p4
+    if not_four
+        p1 = Prime.prime_division(i).to_h.keys.uniq
+        p2 = Prime.prime_division(i+1).to_h.keys.uniq
+        p3 = Prime.prime_division(i+2).to_h.keys.uniq
+        p4 = Prime.prime_division(i+3).to_h.keys.uniq
+        not_four = false
+    else
+        p1 = p2
+        p2 = p3
+        p3 = p4
+        p4 = Prime.prime_division(i+3).to_h.keys.uniq
+    end 
     
-    break if common.empty?()
+    l = [p1,p2,p3,p4]
+    ctrl = false
+    for j in 0..4
+        c = l[3-j]
+        if c.length() != 4
+            i += 3-j
+            not_four = true
+            ctrl = true
+            break
+        end
+    end 
+
+    next if ctrl
+    common = p1 & p2 & p3 & p4
+
+    if common.empty?()
+        break
+    end
 end
 
 
