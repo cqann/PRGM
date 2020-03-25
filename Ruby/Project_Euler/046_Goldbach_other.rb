@@ -5,6 +5,7 @@ i = 1
 while true
     i += 2
     p i
+    p i
     next if Prime.prime?(i)
     
     j = 0
