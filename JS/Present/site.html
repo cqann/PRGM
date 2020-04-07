@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style>
+
+    </style>
+
+   <meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+    <script src="simple.js">
+
+      function compare(arr1,arr2){
+          
+        if(!arr1  || !arr2) return
+      
+        let result;
+      
+        arr1.forEach((e1,i)=>arr2.forEach(e2=>{
+          
+                if(e1.length > 1 && e2.length){
+                  result = compare(e1,e2);
+                }else if(e1 !== e2 ){
+                  result = false
+                }else{
+                  result = true
+                }
+          })
+        )
+        
+        return result
+      
+      }
+
+      function circleIntersect(x1,y1,r1,x2,y2,r2){
+        let distSq = (x1 - x2) * (x1- x2) + (y1 - y2) * (y1 - y2)
+        let radSumSq = (r1 + r2) * (r1 + r2)
+        if (distSq <= radSumSq){
+          return true
+        }
+        return false
+      }
+
+      
+      class Player{
+
+        constructor(x, y){
+          this.x = x
+          this.y = y
+          this.start = {x: x, y: y}
+          this.v = 4
+          this.r = 10 
+        }
+
+        checkWallCollisions(dx,dy){
+          let x = this.x + dx 
+          let y = this.y + dy
+          if (x < 0 || y > 2*totalHeight/3 || y < totalHeight/3) {
+            return false 
+          }
+          /*
+          let ctx = canvas.getContext('2d')
+          let pixelData = ctx.getImageData(x, y, 1, 1)
+          let pixelColors = Array.prototype.slice.call(pixelData.data)
+                          
+          if (!compare(pixelColors,[0,0,0,0])){
+            return false
+          }
+          */
+          return true
+        }
+
+        
+
+        update(){
+          if (keyboard.down && this.checkWallCollisions(0, this.v)){
+            this.y += this.v
+          } 
+          if (keyboard.up && this.checkWallCollisions(0, -this.v)){
+            this.y -= this.v
+          } 
+          if (keyboard.right && this.checkWallCollisions(this.v, 0)){
+            this.x += this.v
+          }
+          if (keyboard.left && this.checkWallCollisions(-this.v, 0)){
+            this.x -= this.v
+          }
+
+          
+
+          circle(this.x, this.y, this.r, "green")
+        }
+
+      } 
+
+      class lineVillain {
+        constructor (x, y, ymin, ymax){
+          this.x = x
+          this.y = y
+          this.ymin = ymin
+          this.ymax = ymax
+          this.v = 5
+          this.r = 10
+        }
+
+        update(){
+          this.y += this.v
+          if (this.y > this.ymax || this.y < this.ymin){
+            this.v *= -1 
+          }
+
+          circle(this.x,this.y,this.r, "red")
+        }
+
+        checkPlayerCollision(player){
+          if (circleIntersect(this.x,this.y, this.r, player.x, player.y, player.r)){
+            return true
+          }
+          return false
+        }
+
+
+        
+      }
+
+      
+      let levelN = 0
+      let tries = 0
+      let words = ["Komigen!","Attans!","Fortsätt!","Du är bäst!","GOGOGO","WIIII","Lets go!","Kämpa!","Heja Heja"]
+      let pictures = [
+        "https://images.hdsydsvenskan.se/preset:large/1280x768/ol5MvB9wL_F6GlQEGkBD3j0IrRQ.jpg",
+        "https://d6jf7ok6u1qis.cloudfront.net/imengine/image.php?uuid=40af0172-cd34-5d4b-a31b-5d5c65e7422f&type=preview&source=false&width=1600&height=1200&function=thumbnail&q=100&z=100&fullsize=1",
+        "https://www.friidrott.se/bilder/20468.jpg",
+        "https://images.hdsydsvenskan.se/preset:large/1280x768/fPkrPYEu7Q_Xk_IEfrvWiOa0bV0.jpg",
+        "https://i.pinimg.com/280x280_RS/e1/8e/fb/e18efb2e255b4ebd2983709b34d8fa26.jpg",
+        "http://www.skanefriidrott.org/wp-content/uploads/2020/02/Filippa-Sivnert_ISM_2020.jpg",
+        "https://d2hhj3gz5jljkm.cloudfront.net/assets2/141/516/786/176/normal/file.jpg",
+        "https://www.mai.se/wp-content/uploads/2019/05/Pallen-F19-4x100m_2358.jpg",
+        "https://www.friidrott.se/bilder/20556.jpg",
+        "https://www.friidrott.se/bilder/20587.jpg",
+        "https://www.friidrott.se/bilder/20673.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/qhg20k60malL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/j19em19swe4x1vx3L1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/nkamp20k60bL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/usm16f1580pallenL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/usm16f1580pallenL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/usm16f1580pallenL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/usm16f1580pallenL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/usm16f1580pallenL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/usm16f1580pallenL1.jpg",
+        "https://www.friidrott.se/Friidrott/media/others/usm16f1580pallenL1.jpg"
+
+      ]
+
+      function createPlayingField(){
+        if (levelN == 0){
+          rectangle(0, 0, totalWidth, totalHeight/3, "DeepSkyBlue")
+          rectangle(0, 2 * totalHeight/3, totalWidth, totalHeight/3, "DeepSkyBlue")
+          text(totalWidth*0.1, totalHeight*0.2, totalHeight*0.2, "PRESENT -->", "black")
+          text(totalWidth*0.1, totalHeight*0.9, totalHeight*0.1, words[tries%words.length], "black")
+          picture(totalWidth*0.6, totalHeight*0.7, pictures[tries%pictures.length],totalWidth*0.2,totalHeight*0.25)
+        } else {
+          fill("DeepSkyBlue")
+          text(totalWidth*0.05,totalHeight * 0.45, 80,"https://bit.ly/34lSSoA", "black")
+          picture(totalWidth*0.4, totalHeight*0.7, "")
+        }
+      }
+
+      let startPos = {x: totalWidth*0.2, y: totalHeight/2}
+      let player = new Player(startPos.x, startPos.y)
+      updatesPerSecond = 60
+
+      let lineVillains = []
+      let nLineVillain = 20
+      for (let i = 0; i < nLineVillain; i++){
+        lineVillains.push(new lineVillain(totalWidth*0.3 + i*(totalWidth*0.43)/nLineVillain, totalHeight*0.33*(i%2-0.5)+totalHeight/2, totalHeight*0.33, totalHeight*0.67))
+      }
+
+      let frameCount = 0
+      function update(){
+        clearScreen()
+        createPlayingField()  
+
+        if (levelN == 0){
+          for (let lv of lineVillains){
+            lv.update()
+            if (lv.checkPlayerCollision(player)){
+              player.x = startPos.x
+              player.y = startPos.y
+              tries++
+            }
+          }
+
+          player.update()
+        }
+
+        frameCount++
+
+        if (player.x > totalWidth){ levelN += 1}
+
+      }
+
+
+
+   </script>
+
+
+  </body>
+</html>

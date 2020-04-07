@@ -1,23 +1,15 @@
-import time 
 
-def is_prime(number):
-    if (number <= 1):
-        return False
-    elif (number <= 3):
-        return True
-    elif (number % 2 == 0 or number % 3 == 0):
-        return False
-    i = 5
-    while (i * i <= number):
-        if (number % i == 0 or number % (i + 2) == 0):
-            return False
-        i += 6
-    return True
+def f(x):
+    return (4 * x**2)/(4 * x**2 - 1)
 
-t0 = time.time()
 
-for i in range(1000000):
-    ctrl = is_prime(i)
+res = 1
+for i in range(1,1000000):
+    res *= f(i)
 
-print(time.time()-t0)
+print(res*2)
+
+
+
+
 
