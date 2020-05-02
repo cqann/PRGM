@@ -1,13 +1,20 @@
 
-def f(x):
-    return (4 * x**2)/(4 * x**2 - 1)
 
 
-res = 1
-for i in range(1,1000000):
-    res *= f(i)
+account = 0
+p_change = 1.04**(1/12)
+f_acc = 0
 
-print(res*2)
+for i in range(300):
+    account *= p_change
+    account += 50000
+
+    f_acc += 50000 * (p_change**i)
+
+
+print(account)
+print(f_acc)
+
 
 
 
