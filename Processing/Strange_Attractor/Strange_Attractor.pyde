@@ -33,7 +33,7 @@ def draw():
     rotateY(-.5)
     
     dt = 0.05
-    dx = (-y-z)*dt
+    dx = (-y-z*sin(x))*dt
     dy = (x+p*y)*dt
     dz = (o+z*(x-B))*dt
     

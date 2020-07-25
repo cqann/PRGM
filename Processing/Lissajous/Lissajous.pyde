@@ -41,7 +41,7 @@ def setup():
   fill(102)
 
 v = 0.005
-count = 10
+count = 4
 xSpinners = []
 ySpinners = []
 

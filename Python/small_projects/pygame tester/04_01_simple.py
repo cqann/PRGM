@@ -99,7 +99,7 @@ def main():
     pygame.init()
     
     # load and set the logo
-    logo = pygame.image.load(os.path.normpath("data/logo32x32.png"))
+    logo = pygame.image.load(os.path.normpath("bb.png"))
     pygame.display.set_icon(logo)
     caption_str = os.path.split(__file__)[1]+"  keys: a/q: change fps, space: pause/resume, r: start/stop "
     pygame.display.set_caption(caption_str)

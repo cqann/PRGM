@@ -19,6 +19,9 @@ def main():
     # load image (it is in same directory)
     bgd = pygame.image.load(os.path.join(resource_path, "bgrnd.png"))
     image = pygame.image.load(os.path.join(resource_path, 'bb.png'))
+    caption_str = os.path.split(__file__)[1]+"  keys: a/q: change fps, space: pause/resume, r: start/stop "
+    pygame.display.set_caption(caption_str)
+    
     image.set_colorkey((255, 0, 255))
 
     screen.blit(bgd,(0,0))
