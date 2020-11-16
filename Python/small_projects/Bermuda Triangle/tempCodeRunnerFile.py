@@ -1,1 +1,3 @@
-vent.type == pygame.QU
+
+a = x**100
+b = 1.01
