@@ -14,7 +14,7 @@ codes = open("codes.txt","r")
 index = 0
 cl = 573
 for code in codes:
-    if index > 100000: break
+    if index > 40: break
     code = code[:-1]
     current_stock = yf.Ticker(code)
     stock_history = current_stock.history("2y","1d")
@@ -29,7 +29,7 @@ print("stocks loaded")
 omx = yf.Ticker("^OMX")
 omx_history = omx.history("2y","1d")
 cash = 100
-to_buy = ["","","","",""]
+to_buy = set()
 index = 0
 days = list(omx_history.index.values)[:-1]
 avg = []
@@ -49,7 +49,7 @@ for day in days: #days
         stock_close = float(current_day["Close"])
         stock_change = (stock_close) / stock_open
 
-        if stock_names[i] == to_buy[2]:
+        if stock_names[i] in to_buy:
             cash -= fifth_cash
             cash += fifth_cash * stock_change
 
@@ -60,7 +60,7 @@ for day in days: #days
         right_half = top_stocks[index_in_list:]
         top_stocks = left_half + [(stock_change, stock_names[i])] + right_half
         
-    to_buy = [x[1] if x != (-100,"") else "" for x in top_stocks ]
+    to_buy = set([x[1]  for x in top_stocks if x != (-100,"")])
     index += 1
     print(index//4.96, cash)
     if (index%(len(days)//20)) == 0:
