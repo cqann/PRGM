@@ -3,7 +3,7 @@ import re
 
 passports = []
 
-with open("day4_e.txt") as passport_file:
+with open("day4_c.txt") as passport_file:
     file_string = passport_file.read()
 
     entries = re.split(r"^\s*$", file_string, flags=re.MULTILINE|re.IGNORECASE)
