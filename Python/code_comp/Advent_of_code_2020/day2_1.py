@@ -3,7 +3,7 @@
 
 inputs = [x[:-1] for x in open("day2.txt","r")]
 valid_count = 0
-for entry in inputs:     
+for entry in inputs:
     rule, password = entry.split(":")
     limit, letter = rule.split(" ")
     password = password[1:]
