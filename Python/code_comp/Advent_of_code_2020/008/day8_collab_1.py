@@ -39,5 +39,4 @@ while True:
     instruction, operation = commands[index]
     instructions[instruction](operation)
 
-
 print(accumulator)
