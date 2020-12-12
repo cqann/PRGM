@@ -1,46 +1,52 @@
 
 from os import path
 import re
-from math import cos, sin, pi
+from math import cos, sin, pi, sqrt, atan2
 
 directions = []
 with open(path.join(__file__, "..", "day12_c.txt")) as file:
-    file_string = file.read()
+    file_string = file.read().strip()
     directions = [(instruction, int(distance)) for instruction, distance in re.findall("([\D])(\d+)", file_string)]
 
-rotation = 0 # => East
 x = 0
 y = 0
-
+dx = 10
+dy = 1
 
 def north(distance):
-    global y
-    y += distance
+    global dy
+    dy += distance
 
 def south(distance):
-    global y
-    y -= distance
+    global dy
+    dy -= distance
 
 def east(distance):
-    global x
-    x += distance
+    global dx
+    dx += distance
 
 def west(distance):
-    global x
-    x -= distance
+    global dx
+    dx -= distance
 
 def forward(distance):
     global x, y
-    x += cos(rotation*(pi/180))*distance
-    y += sin(rotation*(pi/180))*distance
+    x += dx*distance
+    y += dy*distance
 
 def left(amount):
-    global rotation
-    rotation += amount
+    global dx, dy
+    distance_to_ship = sqrt(dx**2 + dy**2)
+    rotation = atan2(dy, dx) + amount*pi/180
+    dx = cos(rotation)*distance_to_ship
+    dy = sin(rotation)*distance_to_ship
 
 def right(amount):
-    global rotation
-    rotation -= amount
+    global dx, dy
+    distance_to_ship = sqrt(dx**2 + dy**2)
+    rotation = atan2(dy, dx) - amount*pi/180
+    dx = cos(rotation)*distance_to_ship
+    dy = sin(rotation)*distance_to_ship
 
 instruction_dict = {
      "N": lambda distance: north(distance),
@@ -53,7 +59,7 @@ instruction_dict = {
 }
 
 for direction in directions:
-    command, amount = direction
-    instruction_dict[command](amount)
+    command, value = direction
+    instruction_dict[command](value)
 
 print(round(abs(x) + abs(y)))
