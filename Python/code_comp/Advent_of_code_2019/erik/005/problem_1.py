@@ -6,13 +6,13 @@ import re
 initial_memory = []
 
 with open (path.join(__file__, "..", "input.txt")) as file:
-    initial_memory = [op_code for op_code in re.findall("(\d+)", file.read())]
+    initial_memory = [op_code for op_code in file.read().split(",")]
 
 
 class SantaComputer:
     def __init__(self, initial_memory):
         self.memory = initial_memory
-        self.initial_memory = list(initial_memory)
+        self.initial_memory = initial_memory
         self.is_running = False
         self.index = 0
 
@@ -28,11 +28,7 @@ class SantaComputer:
     def run(self):
         self.is_running = True
         while(self.is_running):
-            try:
-                value = str(self.get(self.index))
-            except IndexError:
-                self.stop()
-                break
+            value = str(self.get(self.index))
 
             op_code = int(value[-2:]) # last two digits
             if op_code not in self.code_table:
@@ -68,27 +64,31 @@ class SantaComputer:
         self.is_running = False
 
     def input(self, index1):
-        data = input()
-        self.set(self.get(index1), data)
+        data = input("Input: ")
+        self.set(index1, data)
 
     def output(self, index1):
         print(self.get(index1))
 
     def add(self, index1, index2, index3):
-        self.set(index3, int(self.get(index1)) + int(self.get(index2)))
+        number1 = int(self.get(index1))
+        number2 = int(self.get(index2))
+        self.set(index3, number1 + number2)
 
     def multiply(self, index1, index2, index3):
-        self.set(index3, int(self.get(index1)) * int(self.get(index2)))
+        number1 = int(self.get(index1))
+        number2 = int(self.get(index2))
+        self.set(index3, number1 * number2)
 
     def get(self, index):
-        return  self.memory[int(index)]
+        return self.memory[int(index)]
 
     def set(self, index, value):
         index = int(index)
         if index == len(self.memory):
             self.memory.append(value)
         else:
-            self.memory[int(index)] = str(value)
+            self.memory[index] = str(value)
 
 
 if __name__ == "__main__":
