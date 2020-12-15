@@ -3,7 +3,6 @@ from os import path
 import time as t
 
 
-
 def linear_congruence(a, b, m):
     if b == 0:
         return 0
@@ -44,9 +43,9 @@ for equation in modular_equations[1:]:
     eq_copy[1] = (eq_copy[1] - current_equation[1]) % eq_copy[0]
     eq_copy[1] = linear_congruence(current_equation[0], eq_copy[1], eq_copy[0])
 
-    new_multiplier = current_equation[0] * eq_copy[0] 
+    new_multiplier = current_equation[0] * eq_copy[0]
     new_add_constant = (eq_copy[1] * current_equation[0] + current_equation[1]) % new_multiplier
-    
+
     current_equation = [new_multiplier, new_add_constant]
 
 print(current_equation)
