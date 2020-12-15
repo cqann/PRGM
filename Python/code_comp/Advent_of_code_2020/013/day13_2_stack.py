@@ -3,10 +3,6 @@ from os import path
 import time as t
 
 
-def gcd(a, b):
-    if b == 0:
-        return a
-    return gcd(b, a%b)
 
 def linear_congruence(a, b, m):
     if b == 0:
@@ -17,15 +13,19 @@ def linear_congruence(a, b, m):
         b = -b
 
     b %= m
+    a %= m
+    if a == 0:
+        a = m
+    '''
     while a > m:
         a -= m
-
+    '''
     return (m * linear_congruence(m, -b, a) + b) // a
 
 bus_ids = []
 
 
-with open(path.join(__file__, "..", "input_c.txt")) as file:
+with open(path.join(__file__, "..", "input_e.txt")) as file:
     file_string = file.read()
     file_split = file_string.split("\n")
     bus_ids = [bus_id for bus_id in file_split[1].split(",")]
