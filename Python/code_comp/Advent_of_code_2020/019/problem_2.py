@@ -17,7 +17,7 @@ with open(path.join(__file__, "..", "example.txt")) as file:
     # 31 => 14 17 | 1 13
     # 11 => 42 31
     # 11 = "42 31 | 42 11 31"
-    n = 4
+    n = 2
     for i in range(2, n):
         crude_rules[ 8] += f" |{i*' 42'}"
         crude_rules[11] += f" |{i*' 42'}{i*' 31'}"

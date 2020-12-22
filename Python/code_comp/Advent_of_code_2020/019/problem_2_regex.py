@@ -4,7 +4,7 @@ import re
 messages = []
 crude_rules = {}
 
-with open(path.join(__file__, "..", "example.txt")) as file:
+with open(path.join(__file__, "..", "input_e.txt")) as file:
     file_string = file.read()
 
     finds = re.findall(r"(\d+):\s(.*)", file_string)
@@ -41,36 +41,51 @@ def get_rules(key):
 
     regex_rules[key] = r""
 
+    if key == 11:
+        rule_42 = get_rules(42)
+        rule_31 = get_rules(31)
+
+        regex_rules[key] = r"(" + rule_42 + rule_31 + r")"
+
+        for i in range(2, 10):
+            regex_rules[key] += r"|(" + rule_42 + r"){" + str(i) + r"}(" + rule_31 + r"){" + str(i) + r"}"
+        regex_rules[key] = r"(" + regex_rules[key] + r")"
+        return regex_rules[key]
+
+    elif key == 8:
+        rule_42 = get_rules(42)
+        regex_rules[key] += r"((" + rule_42 + r")*)"
+        return regex_rules[key]
+
     for i, rule in enumerate(rules[key]):
         if isinstance(rule, str):
             regex_rules[key] = rule
             break
 
         for rule_key in rule:
-            if rule_key == key:
-                regex_rules[key] += r"(" + regex_rules[key] + r")*"
-                continue
-
             for part in get_rules(rule_key):
                 regex_rules[key] += part
 
         if i != len(rules[key]) - 1:
-            regex_rules[key] += "|"
+            regex_rules[key] += r"|"
 
     regex_rules[key] = r"(" + regex_rules[key] + r")" + r"{1}"
     return regex_rules[key]
 
 regex_pattern = get_rules(0)
 
-for key, rule in regex_rules.items():
-    print(key, ":", rule)
+# for key in sorted(regex_rules.keys()):
+    # print(key, ":", regex_rules[key])
 
 regex_pattern = r"^" + regex_pattern + r"$"
+
+# print(0, ":", regex_rules[0])
+
 compiled_pattern = re.compile(regex_pattern, flags=re.MULTILINE|re.IGNORECASE)
 valid = 0
 for message in messages:
     match = re.match(compiled_pattern, message)
-    print(message, "YES" if match else "NO")
+    # print(message, "YES" if match else "NO")
 
     if match:
         valid += 1
