@@ -1,6 +1,5 @@
 from os import path
 import re
-from itertools import combinations, permutations, product
 
 messages = []
 crude_rules = {}
@@ -14,8 +13,14 @@ with open(path.join(__file__, "..", "example.txt")) as file:
         key, rule = find
         crude_rules[int(key)] = rule
 
-    crude_rules[8] = "42 | 42 8"
-    crude_rules[11] = "42 31 | 42 11 31"
+    # 42 => 9 14 | 10 1
+    # 31 => 14 17 | 1 13
+    # 11 => 42 31
+    # 11 = "42 31 | 42 11 31"
+    n = 4
+    for i in range(2, n):
+        crude_rules[ 8] += f" |{i*' 42'}"
+        crude_rules[11] += f" |{i*' 42'}{i*' 31'}"
 
     messages = re.findall(r"^(\w+)$", file_string, flags=re.MULTILINE)
 
@@ -23,9 +28,9 @@ rules = {}
 
 for key, crude_rule in crude_rules.items():
     or_split = crude_rule.split(" | ")
-    if len(or_split) == 2:
-        rule1, rule2 = [[int(x) for x in rule.split(" ")] for rule in or_split]
-        rules[key] = [rule1, rule2]
+
+    if len(or_split) >= 2:
+        rules[key] = [[int(x) for x in rule.split(" ")] for rule in or_split]
     else:
         try:
             first_number = int(crude_rule[0])
@@ -33,9 +38,10 @@ for key, crude_rule in crude_rules.items():
         except ValueError:
             rules[key] = [crude_rule[1:-1]]
 
+
 word_rules = {}
 
-def create_words_from_rule_key(rule_key, n = 0):
+def create_words_from_rule_key(rule_key):
     if rule_key in word_rules:
         return word_rules[rule_key]
 
@@ -47,10 +53,10 @@ def create_words_from_rule_key(rule_key, n = 0):
             rule_strings.add(current_rules[0])
             break
 
-        current_rule_strings = list(create_words_from_rule_key(rule[0], n))
+        current_rule_strings = list(create_words_from_rule_key(rule[0]))
 
         for i in range(1, len(rule)):
-            rule1_strings = create_words_from_rule_key(rule[i], n)
+            rule1_strings = create_words_from_rule_key(rule[i])
             new_window = []
 
             for element1 in current_rule_strings:
@@ -68,7 +74,7 @@ def create_words_from_rule_key(rule_key, n = 0):
 
 create_words_from_rule_key(0)
 possible_words = word_rules[0]
-print(possible_words)
+# print(word_rules)
 
 result = 0
 for message in messages:

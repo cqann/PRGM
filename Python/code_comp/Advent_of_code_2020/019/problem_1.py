@@ -66,7 +66,10 @@ def create_words_from_rule_key(rule_key):
 
 create_words_from_rule_key(0)
 possible_words = word_rules[0]
-print(possible_words)
+print(42, word_rules[42])
+print(31, word_rules[31])
+print(11, word_rules[11])
+print( 8, word_rules[8])
 
 result = 0
 for message in messages:
