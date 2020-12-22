@@ -5,7 +5,7 @@ from itertools import combinations, permutations, product
 messages = []
 crude_rules = {}
 
-with open(path.join(__file__, "..", "input_c.txt")) as file:
+with open(path.join(__file__, "..", "example.txt")) as file:
     file_string = file.read()
 
     finds = re.findall(r"(\d+):\s(.*)", file_string)
@@ -35,7 +35,7 @@ for key, crude_rule in crude_rules.items():
 
 word_rules = {}
 
-def create_words_from_rule_key(rule_key):
+def create_words_from_rule_key(rule_key, n = 0):
     if rule_key in word_rules:
         return word_rules[rule_key]
 
@@ -47,10 +47,10 @@ def create_words_from_rule_key(rule_key):
             rule_strings.add(current_rules[0])
             break
 
-        current_rule_strings = list(create_words_from_rule_key(rule[0]))
+        current_rule_strings = list(create_words_from_rule_key(rule[0], n))
 
         for i in range(1, len(rule)):
-            rule1_strings = create_words_from_rule_key(rule[i])
+            rule1_strings = create_words_from_rule_key(rule[i], n)
             new_window = []
 
             for element1 in current_rule_strings:
