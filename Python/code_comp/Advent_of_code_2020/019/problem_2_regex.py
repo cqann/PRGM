@@ -4,7 +4,7 @@ import re
 messages = []
 crude_rules = {}
 
-with open(path.join(__file__, "..", "input_c.txt")) as file:
+with open(path.join(__file__, "..", "input_e.txt")) as file:
     file_string = file.read()
 
     finds = re.findall(r"(\d+):\s(.*)", file_string)

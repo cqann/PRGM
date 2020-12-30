@@ -5,7 +5,7 @@ from itertools import combinations, permutations, product
 messages = []
 crude_rules = {}
 
-with open(path.join(__file__, "..", "input_c.txt")) as file:
+with open(path.join(__file__, "..", "input_e.txt")) as file:
     file_string = file.read()
 
     finds = re.findall(r"(\d+):\s(.*)", file_string)
@@ -71,7 +71,7 @@ create_words_from_rule_key(31)
 rule_42 = word_rules[42]
 rule_31 = word_rules[31]
 word_length = 0
-for word in rule_42: 
+for word in rule_42:
     word_length = len(word)
 
 result = 0
@@ -79,10 +79,10 @@ for message in messages:
     if len(message)%word_length != 0:
         continue
 
-    fits_pattern = True 
+    fits_pattern = True
     rev_message = "".join(reversed(message))
     divisions = len(message)  // word_length
-    if divisions < 3: 
+    if divisions < 3:
         continue
     rule_11_count = 0
 
@@ -93,10 +93,10 @@ for message in messages:
         if division in rule_31:
             rule_11_count += 1
         else:
-            break 
+            break
         if i == divisions - 1:
             fits_pattern = False
-    
+
     rule_11_count *= 2
     if not fits_pattern or rule_11_count in [0, divisions]:
         continue
@@ -110,11 +110,11 @@ for message in messages:
         if division not in rule_42:
             fits_pattern = False
             break
-    
+
     if fits_pattern:
         result += 1
 
 print(result)
-    
+
 
 
