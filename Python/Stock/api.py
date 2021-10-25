@@ -31,7 +31,6 @@ print("stocks loaded")
 for day in range(days,0,-1):
     top_stocks = [(-100,""),(-100,""),(-100,""),(-100,""),(-100,"")]
     for i in range(len(stocks_history)):
-
         stock_history = stocks_history[i]
         current_day = stock_history.iloc[[day]]
         stock_open = float(current_day["Open"])
