@@ -1,0 +1,154 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch TwoRandomTurtles",
+            "request": "launch",
+            "mainClass": "TwoRandomTurtles",
+            "projectName": "Lab05-turtle"
+        },
+        {
+            "type": "java",
+            "name": "Launch RandomSteps",
+            "request": "launch",
+            "mainClass": "RandomSteps",
+            "projectName": "Lab05-turtle"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Calculator",
+            "request": "launch",
+            "mainClass": "Calculator",
+            "projectName": "Lab01-introduktion"
+        },
+        {
+            "type": "java",
+            "name": "Launch LineDrawing",
+            "request": "launch",
+            "mainClass": "LineDrawing",
+            "projectName": "Lab01-introduktion"
+        },
+        {
+            "type": "java",
+            "name": "Launch SimpleWindowExample",
+            "request": "launch",
+            "mainClass": "SimpleWindowExample",
+            "projectName": "Lab01-introduktion"
+        },
+        {
+            "type": "java",
+            "name": "Launch AnimatedSquare",
+            "request": "launch",
+            "mainClass": "AnimatedSquare",
+            "projectName": "Lab02-anv-square"
+        },
+        {
+            "type": "java",
+            "name": "Launch DrawSquare",
+            "request": "launch",
+            "mainClass": "DrawSquare",
+            "projectName": "Lab02-anv-square"
+        },
+        {
+            "type": "java",
+            "name": "Launch DrawThreeSquares",
+            "request": "launch",
+            "mainClass": "DrawThreeSquares",
+            "projectName": "Lab02-anv-square"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintClickDists",
+            "request": "launch",
+            "mainClass": "PrintClickDists",
+            "projectName": "Lab02-anv-square"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintClicks",
+            "request": "launch",
+            "mainClass": "PrintClicks",
+            "projectName": "Lab02-anv-square"
+        },
+        {
+            "type": "java",
+            "name": "Launch RedrawSquare",
+            "request": "launch",
+            "mainClass": "RedrawSquare",
+            "projectName": "Lab02-anv-square"
+        },
+        {
+            "type": "java",
+            "name": "Launch StepSquare",
+            "request": "launch",
+            "mainClass": "StepSquare",
+            "projectName": "Lab02-anv-square"
+        },
+        {
+            "type": "java",
+            "name": "Launch Mole",
+            "request": "launch",
+            "mainClass": "Mole",
+            "projectName": "Lab03-jblockmole"
+        },
+        {
+            "type": "java",
+            "name": "Launch Game",
+            "request": "launch",
+            "mainClass": "Game",
+            "projectName": "Lab04-textspel-klasser"
+        },
+        {
+            "type": "java",
+            "name": "Launch TurtleDrawRandomFigure",
+            "request": "launch",
+            "mainClass": "TurtleDrawRandomFigure",
+            "projectName": "Lab05-turtle"
+        },
+        {
+            "type": "java",
+            "name": "Launch TurtleDrawSquare",
+            "request": "launch",
+            "mainClass": "TurtleDrawSquare",
+            "projectName": "Lab05-turtle"
+        },
+        {
+            "type": "java",
+            "name": "Launch TurtleTest",
+            "request": "launch",
+            "mainClass": "TurtleTest",
+            "projectName": "Lab05-turtle"
+        },
+        {
+            "type": "java",
+            "name": "Launch FindBestCandidates",
+            "request": "launch",
+            "mainClass": "rekrytering.FindBestCandidates",
+            "projectName": "Lab07-rekrytering"
+        },
+        {
+            "type": "java",
+            "name": "Launch MemoryGame",
+            "request": "launch",
+            "mainClass": "memory.MemoryGame",
+            "projectName": "Lab08-memory"
+        },
+        {
+            "type": "java",
+            "name": "Launch RaceTurtleTest",
+            "request": "launch",
+            "mainClass": "RaceTurtleTest",
+            "projectName": "Lab09-turtlerace-1"
+        }
+    ]
+}
