@@ -1,0 +1,27 @@
+package game;
+
+import javax.swing.JOptionPane;
+
+public class TakePinsGame {
+	
+	public static void main(String[] args) {
+		Board board = new Board();
+		HumanPlayer human = new HumanPlayer("You");
+		ComputerPlayer computer = new ComputerPlayer("Computer");
+		Player player = null;
+		board.setUp(10);
+		int i = 0;
+		while(board.getNoPins() > 0) {
+			JOptionPane.showMessageDialog(null, board.getNoPins() + " left...");
+			player = i % 2 == 0 ? human : computer;
+			
+			int choice = player.takePins(board);
+		
+			JOptionPane.showMessageDialog(null, player.getUserId() + " took " + choice + " pins!" );
+			i++;
+		}
+		
+		JOptionPane.showMessageDialog(null, player.getUserId() + " won!");
+	}
+}
+ 	 

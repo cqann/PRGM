@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\cqann\\Desktop\\PRGM\\Skola\\Ak_labbar\\Turtle.jar"
+    ]
+}

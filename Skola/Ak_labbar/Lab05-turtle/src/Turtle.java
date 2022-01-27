@@ -23,6 +23,9 @@ public class Turtle {
 		w.moveTo(x, y);
 	}
 
+	public static void main(String[] args) {
+		
+	}
 	/** Sänker pennan. */
 	public void penDown() {
 		drawing = true;

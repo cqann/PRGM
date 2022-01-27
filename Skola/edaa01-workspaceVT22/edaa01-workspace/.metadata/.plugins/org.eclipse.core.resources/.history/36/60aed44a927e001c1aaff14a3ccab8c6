@@ -1,0 +1,24 @@
+package game;
+
+import java.util.Scanner;
+
+public class HumanPlayer extends Player {
+	
+	public HumanPlayer(String userId) {
+		super(userId);
+	}
+	
+	public int takePins(Board board) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Choose to remove one or two sticks");
+		
+		int choice = scan.nextInt();
+		while (choice > 2 || choice < 1) {
+			System.out.println("\nInvalid choice, choose again");
+			choice = scan.nextInt();
+		}
+		
+		board.takePins(choice);
+		return choice;
+	}
+}

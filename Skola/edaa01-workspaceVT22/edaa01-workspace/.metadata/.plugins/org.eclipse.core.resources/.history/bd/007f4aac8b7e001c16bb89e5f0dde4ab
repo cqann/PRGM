@@ -1,0 +1,15 @@
+package lab1;
+
+public class Board {
+	private int nPins;
+	
+	
+	public void setUp(int nPins) {
+		this.nPins = nPins;
+	}
+	
+	public void takePins(int pinsToTake) {
+		nPins -= pinsTotake;
+	}
+	
+}

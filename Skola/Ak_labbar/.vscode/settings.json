@@ -1,0 +1,12 @@
+{
+    "java.project.sourcePaths": [
+        "Lab06-MazeTurtle/src",
+        "Lab09-turtlerace-1/src"
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "cs_pt/cs_pt.jar",
+        "Turtle.jar",
+        "Lab05-turtle/**/*.jar"
+    ]
+}

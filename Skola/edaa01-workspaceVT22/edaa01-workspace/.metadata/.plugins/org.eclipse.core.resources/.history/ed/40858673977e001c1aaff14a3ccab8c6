@@ -1,0 +1,38 @@
+package game;
+
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+public class HumanPlayer extends Player {
+	
+	public HumanPlayer(String userId) {
+		super(userId);
+	}
+	
+	public int takePins(Board board) {
+		Scanner scan = new Scanner(System.in);
+		
+		String choiceStr = JOptionPane.showInputDialog(null, "Choose to remove one or two sticks");
+		int choice = isNumeric(choiceStr) ? Integer.parseInt(choiceStr) : -1;
+		while (choice > 2 || choice < 1 || choice > board.getNoPins()) {
+			choiceStr = JOptionPane.showInputDialog(null, "Invalid choice, choose again");
+			choice = isNumeric(choiceStr) ? Integer.parseInt(choiceStr) : -1;
+		}
+		
+		board.takePins(choice);
+		return choice;
+	}
+	
+	private boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        int i = Integer.parseInt(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
+	}
+}

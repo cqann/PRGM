@@ -1,0 +1,12 @@
+package game;
+
+public class TakePinsGame {
+	
+	public static void main(String[] args) {
+		Board board = new Board();
+		
+		board.setUp(10);
+		board.takePins(2);
+		System.out.println(board.getNoPins());
+	}
+}

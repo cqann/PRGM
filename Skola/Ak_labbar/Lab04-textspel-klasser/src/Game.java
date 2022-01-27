@@ -32,9 +32,8 @@ public class Game {
 
 			long stop = System.nanoTime();
 			System.out.println((stop - start)/1000000 + " ms");
-			scan.close();
 		}	
-
+		
 	}
 
 	public static char getRandomChar(){
@@ -54,7 +53,6 @@ public class Game {
 				return false;
 			}
 		}
-
 		return true;
 	}
 

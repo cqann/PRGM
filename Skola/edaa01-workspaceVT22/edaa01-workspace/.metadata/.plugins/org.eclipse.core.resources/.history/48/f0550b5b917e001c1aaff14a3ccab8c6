@@ -1,0 +1,23 @@
+package game;
+
+public class TakePinsGame {
+	
+	public static void main(String[] args) {
+		Board board = new Board();
+		HumanPlayer human = new HumanPlayer("You");
+		ComputerPlayer computer = new ComputerPlayer("Computer");
+		Player player = null;
+		board.setUp(10);
+		int i = 0;
+		while(board.getNoPins() > 0) {
+			player = i % 2 == 0 ? human : computer;
+			
+			int choice = player.takePins(board);
+			System.out.println(player.getUserId() + " took " + choice + " pins!" );
+			System.out.println(board.getNoPins() + " left...");
+			i++;
+		}
+		
+		System.out.println(player.getUserId() + " won!");
+	}
+}

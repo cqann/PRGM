@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MazeWalker",
+            "request": "launch",
+            "mainClass": "MazeWalker",
+            "projectName": "Ak_labbar_291dd3ff"
+        },
+        {
+            "type": "java",
             "name": "Launch TwoRandomTurtles",
             "request": "launch",
             "mainClass": "TwoRandomTurtles",

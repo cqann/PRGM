@@ -1,5 +1,10 @@
 package rekrytering;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Applicant implements Comparable<Applicant> {
 	//Varje sökande har ett namn och ett antal betyg
 	private String name;
@@ -19,9 +24,22 @@ public class Applicant implements Comparable<Applicant> {
 		String[] g = gradesAsString.split(",");
 		// Skapa vektorn med heltal
 		grades = new int[g.length];
+		String[] validArray = {"U", "3", "4", "5"};
+		ArrayList<String> valid = new ArrayList<String>(Arrays.asList(validArray));
+		Map<String, Integer> letterToGrade = Map.of(
+			"A" , 5,
+			"B" , 4,
+			"C" , 3
+		);
 		// Iterera över alla betyg för att översätta dessa till ett heltal
 		for (int i = 0; i < g.length; i++) {
-			if (g[i].equals("U")) {
+			if (!valid.contains(g[i])){
+				if (letterToGrade.get(g[i]) != null) {
+					grades[i] = letterToGrade.get(g[i]);
+				} else {
+					grades[i] = 0;
+				}
+			} else if (g[i].equals("U")) {
 				// Om underkänd så räknar vi det som en nolla
 				grades[i] = 0;
 			} else {
@@ -31,7 +49,16 @@ public class Applicant implements Comparable<Applicant> {
 	}
 
 	public double getAvgGrade() {
-		return 0; 
+		double result = 0;
+		for (int i = 0; i < grades.length; i++){
+			result += grades[i] / (double) grades.length;
+		}
+		return Math.round(result * 100) / 100.0;
+	}
+
+	public String toString(){
+		String result = name + Arrays.toString(grades) + "(avg: " + getAvgGrade() + ")";
+		return result;
 	}
 
 	/*

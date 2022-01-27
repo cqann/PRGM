@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\cqann\\Desktop\\PRGM\\Skola\\Ak_labbar\\cs_pt\\cs_pt.jar",
+        "c:\\Users\\cqann\\Desktop\\PRGM\\Skola\\Ak_labbar\\Turtle.jar",
+        "c:\\Users\\cqann\\Desktop\\PRGM\\Skola\\Ak_labbar\\Lab09-turtlerace_local.jar"
+    ]
+}

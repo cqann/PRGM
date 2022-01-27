@@ -1,0 +1,18 @@
+package game;
+
+import java.util.Random;
+
+public class ComputerPlayer extends Player{
+	
+	public ComputerPlayer(String userId) {
+		super(userId);
+	}
+	
+	public int takePins(Board board) {
+		Random rand = new Random();
+		int choice = rand.nextInt(2) + 1;
+		board.takePins(choice);
+		System.out.println("Computer chose: " + choice);
+		return choice;
+	}
+}
